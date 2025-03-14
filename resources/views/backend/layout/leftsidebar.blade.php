@@ -1,9 +1,9 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
+    {{-- <!-- Brand Logo -->
     <a href="{{url('/dashboard')}}" class="brand-link">
       <img src="{{asset('backend/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Admin Dashboard <sup>1.0.0</sup></span>
-    </a>
+    </a> --}}
 
     <!-- Sidebar -->
     <div class="sidebar">
@@ -17,7 +17,7 @@
         </div>
       </div>
 
-      <!-- SidebarSearch Form -->
+      {{-- <!-- SidebarSearch Form -->
       <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
           <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
@@ -27,7 +27,7 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> --}}
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -70,6 +70,24 @@
             </ul>
           </li>
 
+          <li class="nav-item @yield('pro_menu-open')">
+            <a href="{{url('/product')}}" class="nav-link @yield('pro_active')">
+              <i class="nav-icon fab fa-product-hunt"></i>
+              <p>
+                Product Management
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item ">
+                <a href="{{url('/product')}}" class="nav-link @yield('pro_active')">
+                  <i class="fab fa-product-hunt nav-icon"></i>
+                  <p>Product</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
 
 
           <li class="nav-header">SETTING</li>
@@ -83,14 +101,8 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item ">
-                <a href="{{url('/product')}}" class="nav-link  @yield('pro_active')">
-                  <i class="fab fa-product-hunt nav-icon"></i>
-                  <p>Product</p>
-                </a>
-              </li>
               <li class="nav-item">
-                <a href="{{url('/category')}}" class="nav-link @yield('c_active')">
+                <a href="{{url('/category')}}" class="nav-link @yield('p_active')">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Category</p>
                 </a>

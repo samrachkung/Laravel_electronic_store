@@ -1,7 +1,7 @@
 @extends('backend.layout.master')
 @section('title', '📂 Manage Categories')
 @section('p_menu-open','menu-open')
-@section('c_active','active')
+@section('p_active','active')
 
 @section('content')
 <div class="container py-4">

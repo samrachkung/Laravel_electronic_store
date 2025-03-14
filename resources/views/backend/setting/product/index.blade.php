@@ -1,7 +1,7 @@
 @extends('backend.layout.master')
 @section('title', '🛍️ Manage Products')
-@section('p_menu-open','menu-open')
-@section('p_active','active')
+@section('pro_menu-open','menu-open')
+@section('pro_active','active')
 
 @section('content')
 <div class="container py-4">
