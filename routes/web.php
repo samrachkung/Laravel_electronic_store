@@ -12,6 +12,7 @@ use App\Http\Controllers\frontend\homeController;
 use App\Http\Controllers\frontend\loginController;
 use App\Http\Controllers\frontend\myOrderController;
 use App\Http\Controllers\frontend\myProfileController;
+use App\Http\Controllers\frontend\OrderController;
 use App\Http\Controllers\frontend\registerController;
 use App\Http\Controllers\frontend\shopController;
 use Illuminate\Support\Facades\Route;
@@ -89,3 +90,4 @@ Route::controller(BOrderController::class)->group(function () {
     Route::delete('/order/{id}', 'destroy') ->name('order.destroy');
 });
 
+Route::get('order/{orderId}/invoice', [myOrderController::class, 'printInvoice'])->name('order.printInvoice');
