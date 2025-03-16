@@ -52,7 +52,7 @@
                 <div class="col-md-4">
                     <div class="card product-card border-0 shadow-sm">
                         <div class="position-relative overflow-hidden">
-                            <img src="{{ $product->image ? asset($product->image) : asset('frontend/images/product_images/placeholder.png') }}" alt="{{ $product->product_name }}" class="product-image w-100 rounded-top">
+                            <img src="{{ asset('/uploads/image/'.$product->image) }}" alt="{{ $product->product_name }}" class="product-image w-100 rounded-top">
                         </div>
                         <div class="card-body">
                             <span class="badge bg-secondary mb-2">{{ $product->category_name }}</span>
@@ -102,53 +102,53 @@
         let quantity = quantityInput.value;
 
         fetch("{{ url('/cart/add') }}", { // Fix: Correct API endpoint
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": "{{ csrf_token() }}" // Ensure CSRF token is included
-            },
-            body: JSON.stringify({
-                product_id: productId,
-                quantity: quantity
+                method: "POST"
+                , headers: {
+                    "Content-Type": "application/json"
+                    , "X-CSRF-TOKEN": "{{ csrf_token() }}" // Ensure CSRF token is included
+                }
+                , body: JSON.stringify({
+                    product_id: productId
+                    , quantity: quantity
+                })
             })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        title: "Success!"
+                        , text: data.message
+                        , icon: "success"
+                        , timer: 900
+                        , toast: true
+                        , position: "top-end"
+                        , showConfirmButton: false
+                    });
+                    updateCartView(); // Refresh cart after adding item
+                } else {
+                    Swal.fire({
+                        title: "Error!"
+                        , text: data.message
+                        , icon: "error"
+                        , timer: 1000
+                        , toast: true
+                        , position: "top-end"
+                        , showConfirmButton: false
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
                 Swal.fire({
-                    title: "Success!",
-                    text: data.message,
-                    icon: "success",
-                    timer: 900,
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false
+                    title: "Error!"
+                    , text: "Something went wrong. Please try again."
+                    , icon: "error"
+                    , timer: 1000
+                    , toast: true
+                    , position: "top-end"
+                    , showConfirmButton: false
                 });
-                updateCartView(); // Refresh cart after adding item
-            } else {
-                Swal.fire({
-                    title: "Error!",
-                    text: data.message,
-                    icon: "error",
-                    timer: 1000,
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            Swal.fire({
-                title: "Error!",
-                text: "Something went wrong. Please try again.",
-                icon: "error",
-                timer: 1000,
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false
             });
-        });
     }
 
     function updateCartView() {
@@ -166,6 +166,7 @@
                 });
             }).catch(error => console.error('Error:', error));
     }
+
 </script>
 
 @endsection

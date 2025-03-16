@@ -9,6 +9,7 @@
             background-color: #f4f7fa;
             padding: 40px;
         }
+
         .invoice-container {
             max-width: 800px;
             margin: auto;
@@ -17,47 +18,58 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         .header {
             text-align: center;
             border-bottom: 2px solid #007bff;
             padding-bottom: 10px;
         }
+
         .invoice-title {
             font-size: 24px;
             font-weight: bold;
             color: #007bff;
         }
+
         .thank-you {
             font-size: 18px;
             font-weight: bold;
             color: #28a745;
             margin-top: 5px;
         }
-        .invoice-details p, .customer-info p {
+
+        .invoice-details p,
+        .customer-info p {
             margin: 5px 0;
             font-size: 16px;
         }
+
         .product-list {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
-        .product-list th, .product-list td {
+
+        .product-list th,
+        .product-list td {
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
+
         .product-list th {
             background-color: #007bff;
             color: white;
             font-weight: bold;
         }
+
         .total {
             font-size: 18px;
             font-weight: bold;
             text-align: right;
             margin-top: 20px;
         }
+
         .footer {
             text-align: center;
             margin-top: 30px;
@@ -66,6 +78,7 @@
             font-size: 14px;
             color: #666;
         }
+
     </style>
 </head>
 <body>
@@ -79,11 +92,11 @@
         <div class="customer-info">
             <h4>Shipping Address</h4>
             @if ($order->address)
-                <p><strong>Name:</strong> {{ $order->address->first_name }} {{ $order->address->last_name }}</p>
-                <p><strong>Address:</strong> {{ $order->address->street_address }}, {{ $order->address->city }}, {{ $order->address->state }} - {{ $order->address->zip_code }}</p>
-                <p><strong>Phone:</strong> {{ $order->address->phone }}</p>
+            <p><strong>Name:</strong> {{ $order->address->first_name }} {{ $order->address->last_name }}</p>
+            <p><strong>Address:</strong> {{ $order->address->street_address }}, {{ $order->address->city }}, {{ $order->address->state }} - {{ $order->address->zip_code }}</p>
+            <p><strong>Phone:</strong> {{ $order->address->phone }}</p>
             @else
-                <p>No address available.</p>
+            <p>No address available.</p>
             @endif
         </div>
 
@@ -99,12 +112,12 @@
             </thead>
             <tbody>
                 @foreach ($order->items as $item)
-                    <tr>
-                        <td>{{ $item->product->name }}</td>
-                        <td>{{ $item->quantity }}</td>
-                        <td>$ {{ number_format($item->product->price, 2) }}</td>
-                        <td>$ {{ number_format($item->total_amount, 2) }}</td>
-                    </tr>
+                <tr>
+                    <td>{{ $item->product->name }}</td>
+                    <td>{{ $item->quantity }}</td>
+                    <td>$ {{ number_format($item->product->price, 2) }}</td>
+                    <td>$ {{ number_format($item->total_amount, 2) }}</td>
+                </tr>
                 @endforeach
             </tbody>
         </table>

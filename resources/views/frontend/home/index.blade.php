@@ -33,7 +33,7 @@
         @foreach ($products as $product)
             <div class="col-md-3 py-3">
                 <div class="card">
-                    <img src="{{ $product->image ? asset($product->image) : asset('frontend/images/product_images/placeholder.png') }}" alt="{{ $product->product_name }}">
+                    <img src="{{ asset('/uploads/image/'.$product->image) }}"" alt="{{ $product->product_name }}">
                     <div class="card-body">
                         <h3 class="text-center">{{ $product->product_name }}</h3>
                         <p class="text-center">{{ $product->description ?? 'No description available.' }}</p>
@@ -113,7 +113,7 @@
         @foreach ($products2 as $product)
             <div class="col-md-3 py-3">
                 <div class="card">
-                    <img src="{{ $product->image ? asset($product->image) : asset('frontend/images/product_images/placeholder.png') }}" alt="{{ $product->product_name }}">
+                    <img src="{{ asset('/uploads/image/'.$product->image) }}"" alt="{{ $product->product_name }}">
                     <div class="card-body">
                         <h3 class="text-center">{{ $product->product_name }}</h3>
                         <p class="text-center">{{ $product->description ?? 'No description available.' }}</p>

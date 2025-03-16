@@ -5,7 +5,6 @@ namespace App\Http\Controllers\frontend;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class myOrderController extends Controller
@@ -28,7 +27,7 @@ class myOrderController extends Controller
         $code = 'teacher_code';
         $currentdate = now();
         $format_date = $currentdate->format('Ym');
-        $invoice_code = "ODIDCODE" . $format_date . "-"; // Adjust the invoice code as needed
+        $invoice_code = "ODIDCODE" . $format_date . "-";
 
         // Load the view and pass the necessary data
         $pdf = PDF::loadView('frontend.printInvoice.printInvoice', compact('order', 'invoice_code'));

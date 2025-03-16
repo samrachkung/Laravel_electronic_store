@@ -111,6 +111,9 @@
                         <ul class="list-group">
                             @foreach ($order->items as $item)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div class="col-md-2 text-center">
+                                    <img src="{{ asset('/uploads/image/'.$item->product->image) }}" class="img-fluid rounded shadow-sm" style="max-width: 80px;" />
+                                </div>
                                 {{ $item->product->name }} (x{{ $item->quantity }})
                                 <span>💲{{ number_format($item->total_amount, 2) }}</span>
                             </li>

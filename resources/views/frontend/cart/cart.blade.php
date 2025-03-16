@@ -15,7 +15,7 @@
                         @foreach ($cartItems as $item)
                         <div class="cart-item row align-items-center py-3 border-bottom" data-id="{{ $item->id }}">
                             <div class="col-md-2 text-center">
-                                <img src="{{ asset($item->product->image ?? 'frontend/images/placeholder.png') }}" class="img-fluid rounded shadow-sm" style="max-width: 80px;" />
+                                <img src="{{ asset('/uploads/image/'.$item->product->image) }}" class="img-fluid rounded shadow-sm" style="max-width: 80px;" />
                             </div>
                             <div class="col-md-4">
                                 <h6 class="fw-bold">{{ $item->product->name }}</h6>

@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Intervention\Image\Laravel\Facades\Image;
 
 class BProductController extends Controller
 {
@@ -52,14 +53,23 @@ class BProductController extends Controller
 
         $input = $request->input();
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('frontend/images/product_images'), $imageName);
-            $input['image'] = 'frontend/images/product_images/' . $imageName;
+
+
+        if ($request->image) {
+            $image_name = $request->file('image');
+
+            $input['image'] = time() . '.' . $image_name->getClientOriginalExtension();
+
+            $destinationPath = public_path('/uploads/thumbnail/image');
+            $imgFile = Image::read($image_name->getRealPath());
+            $imgFile->resize(150, 150, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destinationPath . '/' . $input['image']);
+            $destinationPath = public_path('/uploads/image');
+            $image_name->move($destinationPath, $input['image']);
         }
 
-        Product::create($input,$validated);
+        Product::create($input, $validated);
         return redirect('/product')->with('success', 'Product created successfully');
     }
 
@@ -80,7 +90,7 @@ class BProductController extends Controller
         $categories = Category::all();
         $brands = Brand::all();
 
-        return view('backend.setting.product.edit')->with('products', $products) ->with('categories', $categories)->with('brands', $brands);
+        return view('backend.setting.product.edit')->with('products', $products)->with('categories', $categories)->with('brands', $brands);
     }
 
     /**
@@ -90,44 +100,76 @@ class BProductController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:100',
-            'category_id' => 'required',
-            'brand_id' => 'required',
-            'slug' => 'required',
-            'price' => 'required',
-            'quantity' => 'required',
-            'is_active' => 'required',
-            'is_featured' =>'required',
-            'in_stock' => 'required',
-            'on_sale' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'brand_id' => 'required|exists:brands,id',
+            'slug' => 'required|string|unique:products,slug,' . $id,
+            'price' => 'required|numeric|min:0',
+            'quantity' => 'required|integer|min:0',
+            'is_active' => 'required|boolean',
+            'is_featured' => 'required|boolean',
+            'in_stock' => 'required|boolean',
+            'on_sale' => 'required|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'nullable|string',
         ]);
 
-        $product = Product::find($id);
-        $input = $request->input();
+        $product = Product::findOrFail($id);
 
         if ($request->hasFile('image')) {
-            // Delete the old image if it exists
-            if ($product->image && file_exists(public_path($product->image))) {
-                unlink(public_path($product->image));
+            // Delete old image if exists
+            if ($product->image) {
+                $oldImagePath = public_path('/uploads/image/' . $product->image);
+                $oldThumbnailPath = public_path('/uploads/thumbnail/image/' . $product->image);
+                if (file_exists($oldImagePath))
+                    unlink($oldImagePath);
+                if (file_exists($oldThumbnailPath))
+                    unlink($oldThumbnailPath);
             }
 
+            // Upload new image
             $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('frontend/images/product_images'), $imageName);
-            $input['image'] = 'frontend/images/product_images/' . $imageName;
+            $newImageName = time() . '.' . $image->getClientOriginalExtension();
+            $validated['image'] = $newImageName; // Add image to validated data
+
+            // Save resized thumbnail
+            $thumbnailPath = public_path('/uploads/thumbnail/image');
+            $fullImagePath = public_path('/uploads/image');
+
+            $imgFile = Image::read($image->getRealPath());
+            $imgFile->resize(150, 150, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($thumbnailPath . '/' . $newImageName);
+
+            // Move full image
+            $image->move($fullImagePath, $newImageName);
         }
 
-        $product->update($input,$validated);
+        $product->update($validated);
+
         return redirect('/product')->with('info', 'Product updated successfully');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        Product::destroy($id);
+        $product = Product::findOrFail($id);
+        if ($product->image) {
+            $fullImagePath = public_path('/uploads/image/' . $product->image);
+            $thumbnailPath = public_path('/uploads/thumbnail/image/' . $product->image);
+
+            if (file_exists($fullImagePath)) {
+                unlink($fullImagePath);
+            }
+            if (file_exists($thumbnailPath)) {
+                unlink($thumbnailPath);
+            }
+        }
+
+        $product->delete();
+
         return redirect('/product')->with('error', 'Product deleted successfully');
     }
 }

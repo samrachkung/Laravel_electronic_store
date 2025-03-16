@@ -64,6 +64,9 @@
                     <ul class="list-group mb-3">
                         @foreach ($cartItems as $item)
                         <li class="list-group-item d-flex justify-content-between">
+                            <div class="col-md-2 text-center">
+                                <img src="{{ asset('/uploads/image/'.$item->product->image) }}" class="img-fluid rounded shadow-sm" style="max-width: 80px;" />
+                            </div>
                             <div>
                                 <h6 class="my-0 fw-semibold">{{ $item->product->name }}</h6>
                                 <small class="text-muted">Qty: {{ $item->quantity }}</small>
