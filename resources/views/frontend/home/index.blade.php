@@ -8,8 +8,8 @@
             <br>
             Up To <span id="span2">50%</span> Off
         </h1>
-        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta, saepe.
-            <br>Lorem ipsum dolor sit amet consectetur.
+        <p>Discover the latest electronic gadgets and accessories at unbeatable prices.
+            <br>Shop now and enjoy exclusive deals and discounts.
         </p>
         <div class="btn"><button>Shop Now</button></div>
 
@@ -93,8 +93,8 @@
             <br>
             Up To <span id="span2">50%</span> Off
         </h1>
-        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta, saepe.
-            <br>Lorem ipsum dolor sit amet consectetur.
+        <p>Discover the latest electronic gadgets and accessories at unbeatable prices.
+            <br>Shop now and enjoy exclusive deals and discounts.
         </p>
         <div class="btn"><button>Shop Now</button></div>
 
@@ -169,13 +169,5 @@
     </div>
 </div>
 <!-- offer -->
-<!-- newslater -->
-<div class="container" id="newslater">
-    <h3 class="text-center">Subscribe To The Electronic Shop For Latest upload.</h3>
-    <div class="input text-center">
-        <input type="text" placeholder="Enter Your Email..">
-        <button id="subscribe">SUBSCRIBE</button>
-    </div>
-</div>
-<!-- newslater -->
+
 @endsection

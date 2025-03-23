@@ -123,7 +123,8 @@
         </table>
 
         <p class="total">Total Price: ${{ number_format($order->grand_total, 2) }}</p>
-        <p class="total">Shipping Method: {{ $order->shipping_method ?? 'Card' }}</p>
+        <p class="total">Shipping Method: {{ $order->payment_method ?? 'Card' }}</p>
+
     </div>
 
     <div class="footer">

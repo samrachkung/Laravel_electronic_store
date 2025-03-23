@@ -141,6 +141,7 @@ class CheckoutController extends Controller
         // Update order payment status
         $order->update([
             'payment_status' => 'paid',
+            'payment_method' => 'Stripe',
             'status' => 'processing',
         ]);
 

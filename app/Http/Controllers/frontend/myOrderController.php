@@ -11,7 +11,7 @@ class myOrderController extends Controller
 {
     public function myOrder()
     {
-        $code = 'teacher_code';
+        $code = 'invoice_code';
         $currentdate = now();
         $format_date = $currentdate->format('Ym');
         $invoice_code = "ODIDCODE" . $format_date . "-";
@@ -24,7 +24,7 @@ class myOrderController extends Controller
         if (!$order) {
             return redirect()->back()->with('error', 'Order not found');
         }
-        $code = 'teacher_code';
+        $code = 'invoice_code';
         $currentdate = now();
         $format_date = $currentdate->format('Ym');
         $invoice_code = "ODIDCODE" . $format_date . "-";
