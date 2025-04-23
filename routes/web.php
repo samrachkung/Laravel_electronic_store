@@ -71,6 +71,15 @@ Route::controller(myOrderController::class)->group(function () {
     Route::get('/myorder', 'myorder');
 });
 
+// route get language
+Route::get('lang/{locales}', function ($locales) {
+    if (in_array($locales, ['en', 'kh', 'fr'])) { // Add supported languages
+        Session::put('locales', $locales);
+    }
+    return redirect()->back();
+});
+
+
 
 // Backend routes
 

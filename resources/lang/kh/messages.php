@@ -1,0 +1,63 @@
+<?php
+
+return [
+
+    'new_feature' => 'មុខងារថ្មី',
+    'Electronic Products' => '',
+    'welcome' => 'សូមស្វាគមន៍',
+    'sub_discover' => 'ទិញឥឡូវនេះ និងរីករាយជាមួយការផ្តល់ជូនពិសេស និងការបញ្ចុះតម្លៃ។',
+    'discover_latest_gadgets' => 'ស្វែងរកឧបករណ៍អេឡិចត្រូនិច និងគ្រឿងបន្លាស់ថ្មីៗនៅតម្លៃមិនអាចប្រកួតប្រជែងបាន។',
+    'shop_now' => 'ទិញឥឡូវនេះ',
+    'shop the latest in electronics' => 'ទិញឧបករណ៍អេឡិចត្រូនិចថ្មីៗ',
+    'home' => 'ទំព័រដើម',
+    'products' => 'ផលិតផល',
+    'about' => 'អំពីយើង',
+    'contact' => 'ទំនាក់ទំនង',
+    'cart' => 'កន្ត្រក',
+    'search' => 'ស្វែងរក',
+    'search_placeholder' => 'ស្វែងរកផលិតផល ឬម៉ាក',
+    'categories' => 'ប្រភេទ',
+    'latest_products' => 'ផលិតផលថ្មីៗ',
+    'featured_products' => 'ផលិតផលដែលមានលក្ខណៈពិសេស',
+    'best_selling' => 'លក់ដាច់បំផុត',
+    'sale' => 'ការលក់',
+    'view_all' => 'មើលទាំងអស់',
+    'add_to_cart' => 'បន្ថែមទៅកន្ត្រក',
+    'buy_now' => 'ទិញឥឡូវនេះ',
+    'product_details' => 'ព័ត៌មានលម្អិតអំពីផលិតផល',
+    'description' => 'ការពិពណ៌នា',
+    'specifications' => 'បញ្ជាក់',
+    'reviews' => 'ការពិនិត្យមើល',
+    'write_review' => 'សរសេរការពិនិត្យមើល',
+    'submit_review' => 'ដាក់ស្នើការពិនិត្យមើល',
+    'customer_reviews' => 'ការពិនិត្យមើលរបស់អតិថិជន',
+    'rating' => 'ការវាយតម្លៃ',
+    'out_of_stock' => 'អស់ស្តុក',
+    'in_stock' => 'មានស្តុក',
+    'quantity' => 'បរិមាណ',
+    'total' => 'សរុប',
+    'checkout' => 'បង់ប្រាក់',
+    'billing_details' => 'ព័ត៌មានវិក្កយបត្រ',
+    'shipping_details' => 'ព័ត៌មានដឹកជញ្ជូន',
+    'payment_method' => 'វិធីសាស្រ្តបង់ប្រាក់',
+    'order_summary' => 'សង្ខេបការបញ្ជាទិញ',
+    'order_number' => 'លេខការបញ្ជាទិញ',
+    'order_date' => 'កាលបរិច្ឆេទបញ្ជាទិញ',
+    'order_status' => 'ស្ថានភាពការបញ្ជាទិញ',
+    'order_total' => 'សរុបការបញ្ជាទិញ',
+    'thank_you' => 'សូមអរគុណសម្រាប់ការបញ្ជាទិញរបស់អ្នក',
+
+
+    //login
+
+    'login' => 'ចូល',
+    'register' => 'ចុះឈ្មោះ',
+    'email' => 'អ៊ីមែល',
+    'password' => 'ពាក្យសម្ងាត់',
+    'confirm_password' => 'បញ្ជាក់ពាក្យសម្ងាត់',
+    'remember_me' => 'ចងចាំខ្ញុំ',
+    'forgot_password' => 'ភ្លេចពាក្យសម្ងាត់?',
+    'reset_password' => 'កំណត់ពាក្យសម្ងាត់ឡើងវិញ',
+
+
+];

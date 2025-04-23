@@ -16,10 +16,8 @@ class BOrderController extends Controller
      */
     public function index()
     {
-        $code = 'teacher_code';
-        $currentdate = now();
-        $format_date = $currentdate->format('Ym');
-        $invoice_code = "ODIDCODE" . $format_date . "-";
+        $code = 'invoice_code';
+        $invoice_code = "ODIDCODE" . "-";
         $orders = Order::with(['items.product', 'address', 'user'])->latest()->get();
         return view('backend.orders.index', compact('orders', 'invoice_code'));
     }

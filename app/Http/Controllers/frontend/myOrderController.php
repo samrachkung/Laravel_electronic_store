@@ -12,9 +12,7 @@ class myOrderController extends Controller
     public function myOrder()
     {
         $code = 'invoice_code';
-        $currentdate = now();
-        $format_date = $currentdate->format('Ym');
-        $invoice_code = "ODIDCODE" . $format_date . "-";
+        $invoice_code = "ODIDCODE" . "-";
         $orders = Order::where('user_id', Auth::id())->latest()->with(['items.product', 'address'])->get();
         return view('frontend.myorder.myorder', compact('orders' , 'invoice_code'));
     }
@@ -25,9 +23,8 @@ class myOrderController extends Controller
             return redirect()->back()->with('error', 'Order not found');
         }
         $code = 'invoice_code';
-        $currentdate = now();
-        $format_date = $currentdate->format('Ym');
-        $invoice_code = "ODIDCODE" . $format_date . "-";
+
+        $invoice_code = "ODIDCODE" . "-";
 
         // Load the view and pass the necessary data
         $pdf = PDF::loadView('frontend.printInvoice.printInvoice', compact('order', 'invoice_code'));

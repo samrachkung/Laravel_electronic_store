@@ -19,4 +19,8 @@
 <script src="{{asset('backend/plugins/toastr/toastr.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+@yield('data_table_scripts')
+
 @yield('alert_message')
+
+

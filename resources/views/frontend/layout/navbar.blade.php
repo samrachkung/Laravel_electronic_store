@@ -3,14 +3,14 @@
     <p>WELCOME TO OUR SHOP</p>
     <div class="icons">
         @if(Auth::check())
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="btn" style="border: none; background: none;">
-                    <img src="{{asset('frontend/images/register.png')}}" alt="" width="18px"> Logout
-                </button>
-            </form>
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="btn" style="border: none; background: none;">
+                <img src="{{asset('frontend/images/register.png')}}" alt="" width="18px"> Logout
+            </button>
+        </form>
         @else
-            <a class="nav-link" href="{{ route('login') }}"><img src="{{asset('frontend/images/register.png')}}" alt="" width="18px"> Login</a>
+        <a class="nav-link" href="{{ route('login') }}"><img src="{{asset('frontend/images/register.png')}}" alt="" width="18px"> Login</a>
         @endif
         <a class="nav-link" href="{{url('/register')}}"><img src="{{asset('frontend/images/register.png')}}" alt="" width="18px"> Register</a>
     </div>
@@ -48,6 +48,40 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{url('/myorder')}}"><i class="bi bi-basket"></i> My Order</a>
+                </li>
+
+                <style>
+                    /* Style active language item */
+                    .dropdown-menu .active-lang {
+                        background-color: #007bff !important;
+                        color: white !important;
+                        font-weight: bold;
+                    }
+
+                    /* Hover style */
+                    .dropdown-menu .dropdown-item:hover {
+                        background-color: #e2e6ea;
+                        color: black !important;
+                    }
+
+                    /* Default dropdown item style */
+                    .dropdown-menu .dropdown-item {
+                        color: black !important;
+                        padding: 10px 20px;
+                        text-decoration: none;
+                    }
+
+                </style>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        🌐 Language
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                        <li><a class="dropdown-item {{ app()->getLocale() == 'en' ? 'active' : '' }}" href="{{ url('lang/en') }}">🇺🇸 English</a></li>
+                        <li><a class="dropdown-item {{ app()->getLocale() == 'kh' ? 'active' : '' }}" href="{{ url('lang/kh') }}">🇰🇭 Khmer</a></li>
+                        <li><a class="dropdown-item {{ app()->getLocale() == 'fr' ? 'active' : '' }}" href="{{ url('lang/fr') }}">🇫🇷 French</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>

@@ -8,10 +8,14 @@
             <br>
             Up To <span id="span2">50%</span> Off
         </h1>
-        <p>Discover the latest electronic gadgets and accessories at unbeatable prices.
-            <br>Shop now and enjoy exclusive deals and discounts.
+        <p>{{ __('messages.discover_latest_gadgets') ?? 'Discover the latest electronic gadgets and accessories at unbeatable prices.' }}
+
+
+            <br>{{ __('messages.sub_discover') ?? 'Shop now and enjoy exclusive deals and discounts.' }}
+
         </p>
-        <div class="btn"><button>Shop Now</button></div>
+        <div class="btn"><button>{{__('messages.shop_now')}}</button></div>
+
 
     </div>
     <div class="img">
@@ -28,12 +32,12 @@
 </div>
 <!-- product cards -->
 <div class="container" id="product-cards">
-    <h1 class="text-center"><i class="bi bi-box"></i> PRODUCTS</h1>
+    <h1 class="text-center"><i class="bi bi-box"></i> {{ __('messages.products') }}</h1>
     <div class="row" style="margin-top: 30px;">
         @foreach ($products as $product)
             <div class="col-md-3 py-3">
                 <div class="card">
-                    <img src="{{ asset('/uploads/image/'.$product->image) }}"" alt="{{ $product->product_name }}">
+                    <img src="{{ asset('/uploads/image/'.$product->image) }}" alt="{{ $product->product_name }}">
                     <div class="card-body">
                         <h3 class="text-center">{{ $product->product_name }}</h3>
                         <p class="text-center">{{ $product->description ?? 'No description available.' }}</p>
@@ -47,7 +51,8 @@
                         </div>
                         <h2>${{ number_format($product->price, 2) }}
                             {{-- <button class="btn btn-primary"><i class="bi bi-heart"></i></button> --}}
-                            <a href="{{ url('/shop') }}" class="btn btn-primary"><i class="bi bi-cart-fill"></i> Shop Now</a>
+                            <a href="{{ url('/shop') }}" class="btn btn-primary"><i class="bi bi-cart-fill"></i>{{__('messages.shop_now')}}</a>
+
                         </h2>
                     </div>
                 </div>
@@ -67,7 +72,7 @@
                     <h3>Best Laptop</h3>
                     <h5>Latest Collection</h5>
                     <p>Up To 50% Off</p>
-                     <a href="{{ url('/shop') }}" class="btn btn-primary"><i class="bi bi-cart-fill"></i> Shop Now</a>
+                     <a href="{{ url('/shop') }}" class="btn btn-primary"><i class="bi bi-cart-fill"></i>{{__('messages.shop_now')}}</a>
                 </div>
             </div>
         </div>
@@ -78,7 +83,7 @@
                     <h3>Best Headphone</h3>
                     <h5>Latest Collection</h5>
                     <p>Up To 50% Off</p>
-                     <a href="{{ url('/shop') }}" class="btn btn-primary"><i class="bi bi-cart-fill"></i> Shop Now</a>
+                     <a href="{{ url('/shop') }}" class="btn btn-primary"><i class="bi bi-cart-fill"></i>{{__('messages.shop_now')}}</a>
                 </div>
             </div>
         </div>
@@ -127,7 +132,7 @@
                         </div>
                         <h2>${{ number_format($product->price, 2) }}
                             {{-- <button class="btn btn-primary"><i class="bi bi-heart"></i></button> --}}
-                            <a href="{{ url('shop/' . $product->slug) }}" class="btn btn-primary"><i class="bi bi-cart-fill"></i> Shop Now</a>
+                            <a href="{{ url('shop/' . $product->slug) }}" class="btn btn-primary"><i class="bi bi-cart-fill"></i>{{__('messages.shop_now')}}</a>
                         </h2>
                     </div>
                 </div>

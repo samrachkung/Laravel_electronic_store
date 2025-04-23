@@ -54,7 +54,6 @@ class homeController extends Controller
             ->orderBy('products.created_at', 'DESC')
             ->get();
 
-        // Get products with ID between 11 and 20
         $products2 = DB::table('products')
             ->join('categories', 'products.category_id', '=', 'categories.id')
             ->join('brands', 'products.brand_id', '=', 'brands.id')

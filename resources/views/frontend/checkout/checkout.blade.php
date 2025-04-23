@@ -115,8 +115,8 @@
                     , phone: document.querySelector("[name='phone']").value
                     , address: document.querySelector("[name='address']").value
                     , city: document.querySelector("[name='city']").value
-                    , state: document.querySelector("[name='state']").value, // Correct name
-                    zip_code: document.querySelector("[name='zip_code']").value, // Fixed field name
+                    , state: document.querySelector("[name='state']").value,
+                    zip_code: document.querySelector("[name='zip_code']").value,
                     payment_method: "stripe"
                 , })
             , })
