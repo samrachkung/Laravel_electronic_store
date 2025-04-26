@@ -45,7 +45,7 @@
             <ul class="nav nav-treeview">
               <li class="nav-item ">
                 <a href="{{url('/dashboard')}}" class="nav-link @yield('d_active')">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-tachometer-alt nav-icon"></i>
                   <p>Dashboard</p>
                 </a>
               </li>
@@ -56,7 +56,7 @@
             <a href="{{url('/order')}}" class="nav-link @yield('o_active')">
               <i class="nav-icon fas fa-shopping-cart"></i>
               <p>
-                Order Management
+                Order
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -74,7 +74,7 @@
             <a href="{{url('/product')}}" class="nav-link @yield('pro_active')">
               <i class="nav-icon fab fa-product-hunt"></i>
               <p>
-                Product Management
+                Product
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -88,6 +88,97 @@
             </ul>
           </li>
 
+          <li class="nav-item @yield('menu-open')">
+            <a href="{{url('/product')}}" class="nav-link @yield('active')">
+              <i class="nav-icon fas fa-wallet"></i>
+              <p>
+                Income
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item ">
+                <a href="{{url('/product')}}" class="nav-link @yield('active')">
+                  <i class="fas fa-wallet nav-icon"></i>
+                  <p>Income</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+
+          <li class="nav-item @yield('menu-open')">
+            <a href="{{url('/product')}}" class="nav-link @yield('active')">
+              <i class="nav-icon fas fa-money-check-alt"></i>
+              <p>
+                Sale
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item ">
+                <a href="{{url('/product')}}" class="nav-link @yield('active')">
+                  <i class="fas fa-money-check-alt nav-icon"></i>
+                  <p>Sale</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item @yield('menu-open')">
+            <a href="{{url('/product')}}" class="nav-link @yield('active')">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Employee & Role
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item ">
+                <a href="{{url('/product')}}" class="nav-link @yield('active')">
+                  <i class="fas fa-user nav-icon"></i>
+                  <p>Employee & Role</p>
+
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item @yield('menu-open')">
+            <a href="{{url('/product')}}" class="nav-link @yield('active')">
+              <i class="nav-icon fas fa-address-card"></i>
+              <p>
+                Contact Service
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item ">
+                <a href="{{url('/product')}}" class="nav-link @yield('active')">
+                  <i class="fas fa-address-card nav-icon"></i>
+                  <p>Contact Service</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item @yield('menu-open')">
+            <a href="{{url('/product')}}" class="nav-link @yield('active')">
+              <i class="nav-icon fas fa-warehouse"></i>
+              <p>
+                Warehouse
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item ">
+                <a href="{{url('/service')}}" class="nav-link @yield('active')">
+                  <i class="nav-icon fas fa-warehouse"></i>
+                  <p>Warehouse</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
 
 
           <li class="nav-header">SETTING</li>
@@ -96,20 +187,20 @@
             <a href="#" class="nav-link @yield('p_active')">
               <i class="nav-icon fas fa-cog"></i>
               <p>
-               Setting Management
+               Setting
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="{{url('/category')}}" class="nav-link @yield('p_active')">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-copyright nav-icon"></i>
                   <p>Category</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{url('/brand')}}" class="nav-link @yield('b_active')">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-bold nav-icon"></i>
                   <p>Brand</p>
                 </a>
               </li>
