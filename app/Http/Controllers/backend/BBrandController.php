@@ -43,7 +43,7 @@ class BBrandController extends Controller
             $validated['image'] = $imagePath;
         }
 
-        Brand::create($input,$validated);
+        Brand::create(array_merge($input, $validated));
 
         return redirect('/brand')->with('success', 'Brand created successfully.');
     }

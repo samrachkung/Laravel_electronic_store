@@ -1,9 +1,13 @@
 <?php
 
+
+use App\Http\Controllers\backend\BSalecontroller;
+use App\Http\Controllers\backend\Auth\AuthController;
 use App\Http\Controllers\backend\BBrandController;
 use App\Http\Controllers\backend\BCateogryController;
 use App\Http\Controllers\backend\BDashboardController;
 use App\Http\Controllers\backend\BProductController;
+use App\Http\Controllers\backend\IncomeController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\frontend\aboutController;
 use App\Http\Controllers\frontend\cartController;
@@ -11,8 +15,6 @@ use App\Http\Controllers\frontend\contactController;
 use App\Http\Controllers\frontend\homeController;
 use App\Http\Controllers\frontend\loginController;
 use App\Http\Controllers\frontend\myOrderController;
-use App\Http\Controllers\frontend\myProfileController;
-use App\Http\Controllers\frontend\OrderController;
 use App\Http\Controllers\frontend\registerController;
 use App\Http\Controllers\frontend\shopController;
 use Illuminate\Support\Facades\Route;
@@ -83,20 +85,43 @@ Route::get('lang/{locales}', function ($locales) {
 
 // Backend routes
 
+// Authentication Routes
+Route::controller(AuthController::class)->group(function () {
+    // Login Routes
+    Route::get('/login', 'getloginpage')->name('login');
+    Route::post('/login', 'postlogin')->name('login.post');
+    Route::post('/logout', 'logout')->name('logout');
 
-Route::controller(BDashboardController::class)->group(function () {
-    Route::get('/dashboard', 'index');
+    // Registration Routes
+    Route::get('/register', 'getregisterpage')->name('register');
+    Route::post('/register', 'postregister')->name('register.post');
 });
 
-Route::resource('/product', BProductController::class);
-Route::resource('/category', BCateogryController::class);
-Route::resource('/brand', BBrandController::class);
+Route::middleware(['auth'])->group(function () {
+    Route::controller(BDashboardController::class)->group(function () {
+        Route::get('/dashboard', [BDashboardController::class, 'index'])->name('admin.dashboard');
+        Route::get('/dashboard/data', [BDashboardController::class, 'getChartData']);
+    });
 
-Route::controller(BOrderController::class)->group(function () {
-    Route::get('/order', 'index');
-    Route::get('/order/{id}', 'show');
-    Route::post('/order/{id}', 'updateStatus') ->name('order.updateStatus');
-    Route::delete('/order/{id}', 'destroy') ->name('order.destroy');
+    Route::resource('/product', BProductController::class);
+    Route::resource('/category', BCateogryController::class);
+    Route::resource('/brand', BBrandController::class);
+
+    Route::controller(BOrderController::class)->group(function () {
+        Route::get('/order', 'index');
+        Route::get('/order/{id}', 'show');
+        Route::post('/order/{id}', 'updateStatus')->name('order.updateStatus');
+        Route::delete('/order/{id}', 'destroy')->name('order.destroy');
+
+
+    });
+    Route::get('/income', [IncomeController::class, 'index'])->name('admin.income');
+    Route::get('/income/data', [IncomeController::class, 'getIncomeData'])->name('admin.income.data');
+    Route::get('/orders/{order}', [IncomeController::class, 'show'])->name('admin.orders.show');
+    Route::put('/orders/{order}/status', [IncomeController::class, 'updateStatus'])->name('admin.orders.status');
+
+    Route::get('sales', [BSalecontroller::class, 'index'])->name('admin.sales');
+    Route::get('sales/chart-data', [BSalecontroller::class, 'getChartData']);
 });
 
-Route::get('order/{orderId}/invoice', [myOrderController::class, 'printInvoice'])->name('order.printInvoice');
+Route::get('/order/{orderId}/invoice', [myOrderController::class, 'printInvoice'])->name('order.printInvoice');

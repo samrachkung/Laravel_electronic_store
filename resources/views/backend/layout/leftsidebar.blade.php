@@ -88,8 +88,9 @@
             </ul>
           </li>
 
-          <li class="nav-item @yield('menu-open')">
-            <a href="{{url('/product')}}" class="nav-link @yield('active')">
+          <li class="nav-item @yield('in_menu-open')">
+            <a href="{{url('/income')}}" class="nav-link @yield('in_active')">
+
               <i class="nav-icon fas fa-wallet"></i>
               <p>
                 Income
@@ -98,7 +99,8 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item ">
-                <a href="{{url('/product')}}" class="nav-link @yield('active')">
+                <a href="{{url('/income')}}" class="nav-link @yield('in_active')">
+
                   <i class="fas fa-wallet nav-icon"></i>
                   <p>Income</p>
                 </a>
@@ -107,8 +109,8 @@
           </li>
 
 
-          <li class="nav-item @yield('menu-open')">
-            <a href="{{url('/product')}}" class="nav-link @yield('active')">
+          <li class="nav-item @yield('sale_menu-open')">
+            <a href="{{url('/sales')}}" class="nav-link @yield('sale_active')">
               <i class="nav-icon fas fa-money-check-alt"></i>
               <p>
                 Sale
@@ -117,7 +119,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item ">
-                <a href="{{url('/product')}}" class="nav-link @yield('active')">
+                <a href="{{url('/sales')}}" class="nav-link @yield('sale_active')">
                   <i class="fas fa-money-check-alt nav-icon"></i>
                   <p>Sale</p>
                 </a>
@@ -162,7 +164,7 @@
           </li>
 
           <li class="nav-item @yield('menu-open')">
-            <a href="{{url('/product')}}" class="nav-link @yield('active')">
+            <a href="{{url('/warehouse')}}" class="nav-link @yield('active')">
               <i class="nav-icon fas fa-warehouse"></i>
               <p>
                 Warehouse
@@ -171,7 +173,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item ">
-                <a href="{{url('/service')}}" class="nav-link @yield('active')">
+                <a href="{{url('/warehouse')}}" class="nav-link @yield('active')">
                   <i class="nav-icon fas fa-warehouse"></i>
                   <p>Warehouse</p>
                 </a>

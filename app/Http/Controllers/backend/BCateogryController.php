@@ -38,7 +38,7 @@ class BCateogryController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'is_active' => 'required|boolean',
         ]);
-        $input = $request->input();
+        $input = array_merge($request->input(), $validated);
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
@@ -46,7 +46,7 @@ class BCateogryController extends Controller
             $input['image'] = 'frontend/images/category_images/' . $imageName;
         }
         // Store the category
-        Category::create($input,$validated);
+        Category::create($input);
         return redirect('/category')->with('success', 'Category created successfully');
     }
 
