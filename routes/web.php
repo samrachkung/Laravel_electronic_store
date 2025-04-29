@@ -7,6 +7,7 @@ use App\Http\Controllers\backend\BBrandController;
 use App\Http\Controllers\backend\BCateogryController;
 use App\Http\Controllers\backend\BDashboardController;
 use App\Http\Controllers\backend\BProductController;
+use App\Http\Controllers\backend\BWarehouseController;
 use App\Http\Controllers\backend\IncomeController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\frontend\aboutController;
@@ -109,7 +110,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::controller(BOrderController::class)->group(function () {
         Route::get('/order', 'index');
-        Route::get('/order/{id}', 'show');
+        Route::get('/order/{id}', 'show') ->name('orders.show');
         Route::post('/order/{id}', 'updateStatus')->name('order.updateStatus');
         Route::delete('/order/{id}', 'destroy')->name('order.destroy');
 
@@ -122,6 +123,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('sales', [BSalecontroller::class, 'index'])->name('admin.sales');
     Route::get('sales/chart-data', [BSalecontroller::class, 'getChartData']);
+
+    Route::get('warehouse', [BWarehouseController::class, 'index'])->name('admin.warehouse');
+    Route::post('warehouse/{product}/update-stock', [BWarehouseController::class, 'updateStock'])->name('admin.warehouse.update-stock');
+    Route::get('warehouse/filter', [BWarehouseController::class, 'filter'])->name('admin.warehouse.filter');
 });
 
 Route::get('/order/{orderId}/invoice', [myOrderController::class, 'printInvoice'])->name('order.printInvoice');

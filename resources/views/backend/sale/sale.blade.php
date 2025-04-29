@@ -105,7 +105,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <canvas id="sales-chart" height="300"></canvas>
+                        <canvas id="visitors-chart" height="300"></canvas>
                     </div>
                 </div>
             </div>
@@ -159,7 +159,7 @@
 <script src="{{ asset('backend/plugins/chart.js/Chart.min.js') }}"></script>
 <script>
     $(function() {
-        const ctx = document.getElementById('sales-chart').getContext('2d');
+        const ctx = document.getElementById('visitors-chart').getContext('2d');
         const chart = new Chart(ctx, {
             type: 'bar'
             , data: {

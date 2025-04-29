@@ -23,66 +23,52 @@
 <!-- Main content -->
 <div class="content">
     <div class="container-fluid">
+        <!-- Quick Stats Row -->
         <div class="row">
-            <!-- Order Statistics -->
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-header border-0">
-                        <h3 class="card-title">Order Statistics</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="info-box mb-3 bg-info">
-                                    <span class="info-box-icon"><i class="fas fa-shopping-cart"></i></span>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Today's Orders</span>
-                                        <span class="info-box-number">{{ $todayOrders }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="info-box mb-3 bg-success">
-                                    <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Today's Revenue</span>
-                                        <span class="info-box-number">{{ format_currency($todayRevenue) }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="info-box mb-3 bg-warning">
-                                    <span class="info-box-icon"><i class="fas fa-users"></i></span>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">New Customers</span>
-                                        <span class="info-box-number">{{ $newCustomers }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="info-box mb-3 bg-danger">
-                                    <span class="info-box-icon"><i class="fas fa-percentage"></i></span>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Conversion Rate</span>
-                                        <span class="info-box-number">{{ $conversionRate }}%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Order Status Chart -->
-                        <div class="position-relative mb-4">
-                            <canvas id="order-status-chart" height="200"></canvas>
-                        </div>
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3 bg-primary">
+                    <span class="info-box-icon"><i class="fas fa-cash-register"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Total Earning</span>
+                        <span class="info-box-number">{{ format_currency($totalSales) }}</span>
                     </div>
                 </div>
             </div>
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3 bg-success">
+                    <span class="info-box-icon"><i class="fas fa-boxes"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Products Sold</span>
+                        <span class="info-box-number">{{ $totalProductsSold }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3 bg-warning">
+                    <span class="info-box-icon"><i class="fas fa-percentage"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Avg. Order Value</span>
+                        <span class="info-box-number">{{ format_currency($averageOrderValue) }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3 bg-danger">
+                    <span class="info-box-icon"><i class="fas fa-exclamation-triangle"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Low Stock Items</span>
+                        <span class="info-box-number">{{ $lowquantityProducts->count() }}</span>
 
-            <!-- Sales Overview -->
-            <div class="col-lg-12">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Row -->
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-lg-8">
+                <!-- Sales Overview -->
                 <div class="card">
                     <div class="card-header border-0">
                         <div class="d-flex justify-content-between">
@@ -95,24 +81,163 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="d-flex">
-                            <p class="d-flex flex-column">
-                                <span class="text-bold text-lg">{{ format_currency($currentPeriodSales) }}</span>
-                                <span>Current Period Sales</span>
-                            </p>
-                            <p class="ml-auto d-flex flex-column text-right">
-                                <span class="{{ $salesChangePercentage >= 0 ? 'text-success' : 'text-danger' }}">
-                                    <i class="fas fa-arrow-{{ $salesChangePercentage >= 0 ? 'up' : 'down' }}"></i>
-                                    {{ abs($salesChangePercentage) }}%
-                                </span>
-                                <span class="text-muted">vs Previous Period</span>
-                            </p>
-                        </div>
                         <div class="position-relative mb-4">
-                            <canvas id="visitors-chart" height="200"></canvas>
+                            <canvas id="visitors-chart" height="100"></canvas>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div>
+
+                                @if($salesChangePercentage > 0)
+                                <span class="text-success">
+                                    <i class="fas fa-arrow-up"></i> {{ $salesChangePercentage }}%
+                                </span>
+                                @elseif($salesChangePercentage < 0) <span class="text-danger">
+                                    <i class="fas fa-arrow-down"></i> {{ abs($salesChangePercentage) }}%
+                                    </span>
+                                    @else
+                                    <span class="text-muted">0%</span>
+                                    @endif
+
+
+
+                            </div>
+                            <div>
+                                <span class="text-muted">Total: </span>
+                                <span class="font-weight-bold">{{ format_currency($currentPeriodSales) }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Product Performance -->
+                <div class="card">
+                    <div class="card-header border-0">
+                        <h3 class="card-title">Product Performance</h3>
+                    </div>
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-striped table-valign-middle">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Sold</th>
+                                    <th>Revenue</th>
+                                    <th>Stock</th>
+                                    <th>Trend</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($topProducts as $product)
+                                <tr>
+                                    <td>
+                                        <img src="{{ $product->image ? asset('storage/'.$product->image) : asset('backend/dist/img/default-150x150.png') }}" alt="{{ $product->name }}" class="img-circle img-size-32 mr-2">
+                                        {{ $product->name }}
+                                    </td>
+                                    <td>{{ format_currency($product->price) }}</td>
+                                    <td>{{ $product->total_sold }}</td>
+                                    <td>{{ format_currency($product->total_revenue) }}</td>
+                                    <td>
+                                        <div class="progress progress-xs">
+                                            <div class="progress-bar bg-{{ $product->quantity  <= 10 ? 'danger' : 'success' }}" style="width: {{ ($product->quantity ) * 100 }}%">
+
+
+                                            </div>
+                                        </div>
+                                        <small>{{ $product->quantity }} remaining</small>
+
+                                    </td>
+                                    <td class="text-center">
+                                        @if($product->sales_trend > 0)
+                                        <span class="text-success"><i class="fas fa-arrow-up"></i> {{ $product->sales_trend }}%</span>
+                                        @elseif($product->sales_trend < 0) <span class="text-danger"><i class="fas fa-arrow-down"></i> {{ abs($product->sales_trend) }}%</span>
+                                            @else
+                                            <span class="text-muted">-</span>
+                                            @endif
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-lg-4">
+                <!-- Income Breakdown -->
+                <div class="card">
+                    <div class="card-header border-0">
+                        <h3 class="card-title">Income Breakdown</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="position-relative mb-4">
+                            <canvas id="sales-chart" height="150"></canvas>
+                        </div>
+                        <div class="row">
+                            @foreach($paymentMethods as $method)
+                            <div class="col-6">
+                                <div class="bg-{{ $method->color }} p-2 mb-2 text-center">
+                                    <span class="text-white">Pay By : {{ $method->name }}</span>
+                                    <br>
+                                    <span class="text-white">ToTal : {{ format_currency($method->total) }}</span>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Transactions -->
+                <div class="card">
+                    <div class="card-header border-0">
+                        <h3 class="card-title">Recent Transactions</h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="products-list product-list-in-card pl-2 pr-2">
+                            @foreach($recentOrders as $order)
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="{{ route('orders.show', $order->id) }}" class="product-title">
+                                        Order #{{ $order->id }}
+                                        <span class="badge badge-{{ getOrderStatusColor($order->status) }} float-right">
+                                            {{ ucfirst($order->status) }}
+                                        </span>
+                                    </a>
+                                    <span class="product-description">
+                                        {{ $order->user->name ?? 'Guest' }} -
+                                        {{ format_currency($order->grand_total) }} -
+                                        {{ $order->created_at->diffForHumans() }}
+                                    </span>
+                                </div>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Low Stock Alert -->
+                <div class="card">
+                    <div class="card-header border-0">
+                        <h3 class="card-title">Low Stock Alert</h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="products-list product-list-in-card pl-2 pr-2">
+                            @foreach($lowquantityProducts as $product)
+
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="{{url('product/'.$product->id)}}" class="product-title">
+
+                                        {{ $product->name }}
+                                        <span class="badge badge-danger float-right">{{ $product->quantity }} left</span>
+                                    </a>
+                                </div>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -152,15 +277,24 @@
             }
         });
 
-        // Order Status Chart
-        const statusCtx = document.getElementById('order-status-chart').getContext('2d');
-        const statusChart = new Chart(statusCtx, {
+        // Income Breakdown Chart
+        const incomeCtx = document.getElementById('sales-chart').getContext('2d');
+        const incomeChart = new Chart(incomeCtx, {
             type: 'doughnut'
             , data: {
-                labels: @json($orderStatusLabels)
+                labels: @json($paymentMethods->pluck('name'))
                 , datasets: [{
-                    data: @json($orderStatusData)
-                    , backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b']
+                    data: @json($paymentMethods -> pluck('total'))
+                    , backgroundColor: @json($paymentMethods -> pluck('color')).map(color => {
+                        const colors = {
+                            primary: '#007bff'
+                            , success: '#28a745'
+                            , info: '#17a2b8'
+                            , warning: '#ffc107'
+                            , danger: '#dc3545'
+                        };
+                        return colors[color] || '#6c757d';
+                    })
                 }]
             }
         });
@@ -181,6 +315,35 @@
                     });
             });
         });
+    });
+
+    const ctx = document.getElementById('visitors-chart').getContext('2d');
+    const salesTrendChart = new Chart(ctx, {
+        type: 'line'
+        , data: {
+            labels: @json($salesTrendLabels)
+            , datasets: [{
+                label: 'Sales'
+                , data: @json($salesTrendData)
+
+                , borderColor: '#007bff'
+                , backgroundColor: 'rgba(0, 123, 255, 0.1)'
+                , fill: true
+            }]
+        }
+        , options: {
+            responsive: true
+            , scales: {
+                y: {
+                    beginAtZero: true
+                    , ticks: {
+                        callback: function(value) {
+                            return '$' + value.toLocaleString();
+                        }
+                    }
+                }
+            }
+        }
     });
 
 </script>
