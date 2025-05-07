@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="container py-4">
-    <h2 class="fw-bold">📋 Category Management Dashboard</h2>
+    <h2 class="fw-bold">📋 Category Management </h2>
     <a href="{{ url('/category/create') }}" class="btn btn-primary mt-2 mb-2"><i class="fas fa-plus-circle"></i> Add Category</a>
 
     @if(session('success'))

@@ -77,7 +77,8 @@
             <p>Log in to continue your journey with us.</p>
         </div>
         <div class="col-md-7" id="side2">
-            <form action="{{ route('authenticate') }}" method="POST" id="loginForm">
+            <form action="{{ route('frontend.login.post') }}" method="POST" id="loginForm">
+
                 @csrf
                 <h3 class="text-center mb-4">Account Login</h3>
                 <div>

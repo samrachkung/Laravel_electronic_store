@@ -13,7 +13,7 @@
                 <img src="{{asset('backend/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="{{url('/dashboard')}}" class="d-block">{{ Auth::check() ? Auth::user()->name : 'Guest' }}</a>
+                <a href="{{url('/dashboard')}}" class="d-block">{{ Auth::check() ? Auth::user()->name : 'Samrach' }}</a>
 
             </div>
         </div>
@@ -150,24 +150,26 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item @yield('menu-open')">
-                    <a href="{{url('/product')}}" class="nav-link @yield('active')">
+
+
+                <li class="nav-item @yield('user_menu-open')">
+                    <a href="{{url('/users')}}" class="nav-link @yield('user_active')">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
-                            Employee & Role
+                            User
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ">
-                            <a href="{{url('/product')}}" class="nav-link @yield('active')">
-                                <i class="fas fa-user nav-icon"></i>
-                                <p>Employee & Role</p>
-
+                            <a href="{{url('/users')}}" class="nav-link @yield('user_active')">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>User</p>
                             </a>
                         </li>
                     </ul>
                 </li>
+
 
                 <li class="nav-item @yield('menu-open')">
                     <a href="{{url('/product')}}" class="nav-link @yield('active')">

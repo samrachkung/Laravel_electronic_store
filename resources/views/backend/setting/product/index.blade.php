@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="container py-4">
-    <h2 class="fw-bold">🛒 Product Management Dashboard</h2>
+    <h2 class="fw-bold">🛒 Product Management</h2>
     <a href="{{ url('/product/create') }}" class="btn btn-primary mt-2 mb-2"><i class="fas fa-plus-circle"></i> Add Product</a>
 
     @if(session('success'))

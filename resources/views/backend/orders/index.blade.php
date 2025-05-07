@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="container py-4">
-    <h2 class="fw-bold">📦 Order Management Dashboard</h2>
+    <h2 class="fw-bold">📦 Order Management </h2>
 
     @if(session('success'))
     <script>

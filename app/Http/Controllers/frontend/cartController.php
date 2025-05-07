@@ -14,7 +14,7 @@ class CartController extends Controller
     {
         $user = auth()->user();
         if (!$user) {
-            return redirect()->route('login')->with('error', 'Please login to view your cart.');
+            return redirect()->route('frontend.login')->with('error', 'Please login to view your cart.');
         }
         $cartItems = Cart::where('user_id', $user->id)->with('product')->get();
         return view('frontend.cart.cart', compact('cartItems'));
@@ -98,7 +98,7 @@ class CartController extends Controller
             'grandTotal' => $grandTotal
         ]);
     }
-   
+
     public function removeCart(Request $request)
     {
         $productId = $request->input('id');
