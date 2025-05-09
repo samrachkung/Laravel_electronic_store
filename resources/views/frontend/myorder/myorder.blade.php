@@ -137,7 +137,8 @@
                         </ul>
 
                         @if($order->status != 'canceled')
-                        <a href="{{ route('order.printInvoice', $order->id) }}" class="btn btn-primary mt-5">📄 Print / Download Invoice</a>
+                        <a href="{{ route('frontend.order.printInvoice', $order->id) }}" class="btn btn-primary mt-5">📄 Print / Download Invoice</a>
+
                         @endif
                     </div>
                 </div>

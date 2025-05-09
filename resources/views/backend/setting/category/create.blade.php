@@ -27,7 +27,7 @@
                         <h3 class="card-title">Create Category</h3>
                     </div>
 
-                    <form action="{{url('/category')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{url('/admin/category')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             <div class="form-group">

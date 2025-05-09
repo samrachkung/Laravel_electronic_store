@@ -102,7 +102,8 @@
 
 <script>
     document.getElementById("checkout-button").addEventListener("click", function() {
-        fetch("{{ route('checkout.placeOrder') }}", {
+        fetch("{{ route('frontend.checkout.placeOrder') }}", {
+
                 method: "POST"
                 , headers: {
                     "Content-Type": "application/json"

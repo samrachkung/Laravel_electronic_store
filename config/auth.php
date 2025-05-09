@@ -36,12 +36,20 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'web' => [  // Frontend session
             'driver' => 'session',
             'provider' => 'users',
         ],
         'admin' => [
             'driver' => 'session',
+            'provider' => 'admins',
+        ],
+        'user-api' => [  // Frontend JWT
+            'driver' => 'jwt',
+            'provider' => 'users',
+        ],
+        'admin-api' => [  // Backend JWT
+            'driver' => 'jwt',
             'provider' => 'admins',
         ],
     ],
@@ -69,10 +77,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'admins' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\Models\Admin::class, // You'll need to create this model
-        // ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class, // You'll need to create this model
+        ],
 
         // 'users' => [
         //     'driver' => 'database',

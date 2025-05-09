@@ -197,7 +197,7 @@
                             @foreach($recentOrders as $order)
                             <li class="item">
                                 <div class="product-info">
-                                    <a href="{{ route('orders.show', $order->id) }}" class="product-title">
+                                    <a href="{{ route('admin.orders.show', $order->id) }}" class="product-title">
                                         Order #{{ $order->id }}
                                         <span class="badge badge-{{ getOrderStatusColor($order->status) }} float-right">
                                             {{ ucfirst($order->status) }}

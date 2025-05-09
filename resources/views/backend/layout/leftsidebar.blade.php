@@ -13,8 +13,7 @@
                 <img src="{{asset('backend/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="{{url('/dashboard')}}" class="d-block">{{ Auth::check() ? Auth::user()->name : 'Samrach' }}</a>
-
+                <a href="{{url('admin/dashboard')}}" class="d-block">{{ Auth::check() ? Auth::user()->name : 'Samrach' }}</a>
             </div>
         </div>
 
@@ -45,7 +44,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ">
-                            <a href="{{url('/dashboard')}}" class="nav-link @yield('d_active')">
+                            <a href="{{url('/admin/dashboard')}}" class="nav-link @yield('d_active')">
                                 <i class="fas fa-tachometer-alt nav-icon"></i>
                                 <p>Dashboard</p>
                             </a>
@@ -63,7 +62,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ">
-                            <a href="{{url('/order')}}" class="nav-link @yield('o_active')">
+                            <a href="{{url('/admin/order')}}" class="nav-link @yield('o_active')">
                                 <i class="fas fa-shopping-cart nav-icon"></i>
                                 <p>Order</p>
                             </a>
@@ -72,7 +71,7 @@
                 </li>
 
                 <li class="nav-item @yield('pro_menu-open')">
-                    <a href="{{url('/product')}}" class="nav-link @yield('pro_active')">
+                    <a href="{{url('/admin/product')}}" class="nav-link @yield('pro_active')">
                         <i class="nav-icon fab fa-product-hunt"></i>
                         <p>
                             Product
@@ -81,7 +80,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ">
-                            <a href="{{url('/product')}}" class="nav-link @yield('pro_active')">
+                            <a href="{{url('/admin/product')}}" class="nav-link @yield('pro_active')">
                                 <i class="fab fa-product-hunt nav-icon"></i>
                                 <p>Product</p>
                             </a>
@@ -92,7 +91,7 @@
 
 
                 <li class="nav-item @yield('ware_menu-open')">
-                    <a href="{{url('/warehouse')}}" class="nav-link @yield('ware_active')">
+                    <a href="{{url('/admin/warehouse')}}" class="nav-link @yield('ware_active')">
 
                         <i class="nav-icon fas fa-warehouse"></i>
                         <p>
@@ -102,7 +101,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ">
-                            <a href="{{url('/warehouse')}}" class="nav-link @yield('ware_active')">
+                            <a href="{{url('/admin/warehouse')}}" class="nav-link @yield('ware_active')">
 
                                 <i class="nav-icon fas fa-warehouse"></i>
                                 <p>Warehouse</p>
@@ -113,7 +112,7 @@
 
 
                 <li class="nav-item @yield('in_menu-open')">
-                    <a href="{{url('/income')}}" class="nav-link @yield('in_active')">
+                    <a href="{{url('/admin/income')}}" class="nav-link @yield('in_active')">
 
                         <i class="nav-icon fas fa-wallet"></i>
                         <p>
@@ -123,7 +122,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ">
-                            <a href="{{url('/income')}}" class="nav-link @yield('in_active')">
+                            <a href="{{url('/admin/income')}}" class="nav-link @yield('in_active')">
 
                                 <i class="fas fa-wallet nav-icon"></i>
                                 <p>Income</p>
@@ -134,7 +133,7 @@
 
 
                 <li class="nav-item @yield('sale_menu-open')">
-                    <a href="{{url('/sales')}}" class="nav-link @yield('sale_active')">
+                    <a href="{{url('/admin/sales')}}" class="nav-link @yield('sale_active')">
                         <i class="nav-icon fas fa-dollar-sign"></i>
                         <p>
                             Sale
@@ -143,7 +142,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ">
-                            <a href="{{url('/sales')}}" class="nav-link @yield('sale_active')">
+                            <a href="{{url('/admin/sales')}}" class="nav-link @yield('sale_active')">
                                 <i class="fas fa-dollar-sign nav-icon"></i>
                                 <p>Sale</p>
                             </a>
@@ -153,7 +152,7 @@
 
 
                 <li class="nav-item @yield('user_menu-open')">
-                    <a href="{{url('/users')}}" class="nav-link @yield('user_active')">
+                    <a href="{{url('/admin/users')}}" class="nav-link @yield('user_active')">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             User
@@ -162,7 +161,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ">
-                            <a href="{{url('/users')}}" class="nav-link @yield('user_active')">
+                            <a href="{{url('/admin/users')}}" class="nav-link @yield('user_active')">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>User</p>
                             </a>
@@ -172,7 +171,7 @@
 
 
                 <li class="nav-item @yield('menu-open')">
-                    <a href="{{url('/product')}}" class="nav-link @yield('active')">
+                    <a href="{{url('/admin/product')}}" class="nav-link @yield('active')">
                         <i class="nav-icon fas fa-address-card"></i>
                         <p>
                             Service
@@ -181,7 +180,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ">
-                            <a href="{{url('/product')}}" class="nav-link @yield('active')">
+                            <a href="{{url('/admin/product')}}" class="nav-link @yield('active')">
                                 <i class="fas fa-address-card nav-icon"></i>
                                 <p>Service</p>
                             </a>
@@ -201,13 +200,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{url('/category')}}" class="nav-link @yield('p_active')">
+                            <a href="{{url('/admin/category')}}" class="nav-link @yield('p_active')">
                                 <i class="fas fa-copyright nav-icon"></i>
                                 <p>Category</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{url('/brand')}}" class="nav-link @yield('b_active')">
+                            <a href="{{url('/admin/brand')}}" class="nav-link @yield('b_active')">
                                 <i class="fas fa-bold nav-icon"></i>
                                 <p>Brand</p>
                             </a>

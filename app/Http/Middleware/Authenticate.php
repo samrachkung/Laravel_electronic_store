@@ -2,11 +2,30 @@
 
 namespace App\Http\Middleware;
 
+use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class Authenticate extends Middleware
 {
+
+    public function handle($request, Closure $next, ...$guards)
+    {
+        if (empty($guards)) {
+            // Automatically detect guard based on route prefix
+            if ($request->is('admin*')) {
+                $guards = ['admin'];
+            } else {
+                $guards = [null]; // Default guard
+            }
+        }
+
+        $this->authenticate($request, $guards);
+
+        return $next($request);
+    }
+
     /**
      * Get the path the user should be redirected to when they are not authenticated.
      */
@@ -16,11 +35,20 @@ class Authenticate extends Middleware
             return null;
         }
 
-        if ($request->is('admin') || $request->is('admin/*')) {
-            return route('backend.login'); // Redirect to admin login
+        // Handle admin authentication redirect
+        if ($request->is('admin*')) {
+            return route('admin.login');
         }
 
-        return route('frontend.login'); // Redirect to frontend login by default
-    }
+        // Handle API authentication response
+        if ($request->is('api*')) {
+            abort(response()->json([
+                'message' => 'Unauthenticated',
+                'status' => 401
+            ], 401));
+        }
 
+        // Default frontend login route
+        return route('login');
+    }
 }

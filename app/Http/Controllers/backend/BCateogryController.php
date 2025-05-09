@@ -47,7 +47,7 @@ class BCateogryController extends Controller
         }
         // Store the category
         Category::create($input);
-        return redirect('/category')->with('success', 'Category created successfully');
+        return redirect('/admin/category')->with('success', 'Category created successfully');
     }
 
     /**
@@ -84,7 +84,7 @@ class BCateogryController extends Controller
             $input['image'] = 'frontend/images/category_images/' . $imageName;
         }
         $category->update($input,$validated);
-        return redirect('/category')->with('info', 'Category updated successfully');
+        return redirect('/admin/category')->with('info', 'Category updated successfully');
     }
 
     /**
@@ -93,6 +93,6 @@ class BCateogryController extends Controller
     public function destroy(string $id)
     {
         Category::destroy($id);
-        return redirect('/category')->with('error', 'Category deleted successfully');
+        return redirect('/admin/category')->with('error', 'Category deleted successfully');
     }
 }

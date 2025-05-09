@@ -48,7 +48,7 @@
                         </span>
                     </td>
                     <td>
-                        <form action="{{ route('order.updateStatus', $order->id) }}" method="POST">
+                        <form action="{{ route('admin.order.updateStatus', $order->id) }}" method="POST">
                             @csrf
                             <select name="status" class="form-select" onchange="this.form.submit()">
                                 <option value="new" {{ $order->status == 'new' ? 'selected' : '' }}>🆕 New</option>
@@ -60,7 +60,7 @@
                         </form>
                     </td>
                     <td>
-                        <form action="{{ route('order.destroy', $order->id) }}" method="POST" onsubmit="return confirmDelete(event)">
+                        <form action="{{ route('admin.order.destroy', $order->id) }}" method="POST" onsubmit="return confirmDelete(event)">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger btn-sm">🗑 Delete</button>

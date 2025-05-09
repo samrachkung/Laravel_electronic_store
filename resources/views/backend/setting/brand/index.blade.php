@@ -6,7 +6,7 @@
 @section('content')
 <div class="container py-4">
     <h2 class="fw-bold">🏢 Brand Management </h2>
-    <a href="{{ url('/brand/create') }}" class="btn btn-primary mt-2 mb-2"><i class="fas fa-plus-circle"></i> Add Brand</a>
+    <a href="{{ url('admin/brand/create') }}" class="btn btn-primary mt-2 mb-2"><i class="fas fa-plus-circle"></i> Add Brand</a>
 
     @if(session('success'))
         <script>
@@ -52,8 +52,8 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ url('brand/'.$item->id.'/edit') }}" class="btn btn-warning btn-sm"><i class="far fa-edit"></i> ✏️ Edit</a>
-                                <form action="{{ url('brand/'.$item->id) }}" method="POST" class="d-inline delete-form">
+                                <a href="{{ url('/admin/brand/'.$item->id.'/edit') }}" class="btn btn-warning btn-sm"><i class="far fa-edit"></i> ✏️ Edit</a>
+                                <form action="{{ url('/admin/brand/'.$item->id) }}" method="POST" class="d-inline delete-form">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="btn btn-danger btn-sm delete-btn">

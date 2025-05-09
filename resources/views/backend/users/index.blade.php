@@ -7,7 +7,7 @@
 @section('content')
 <div class="container py-4">
     <h2 class="fw-bold">👥 User Management</h2>
-    <a href="{{ route('users.create') }}" class="btn btn-primary mt-2 mb-2">
+    <a href="{{ route('admin.users.create') }}" class="btn btn-primary mt-2 mb-2">
         <i class="fas fa-user-plus"></i> Add User
     </a>
 
@@ -62,10 +62,10 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">
+                            <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning btn-sm">
                                 <i class="far fa-edit"></i> ✏️ Edit
                             </a>
-                            <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline delete-form">
+                            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline delete-form">
                                 @csrf
                                 @method('DELETE')
                                 <button type="button" class="btn btn-danger btn-sm delete-btn">

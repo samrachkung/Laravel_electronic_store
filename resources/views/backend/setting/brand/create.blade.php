@@ -27,7 +27,7 @@
                         <h3 class="card-title">Create brand</h3>
                     </div>
 
-                    <form action="{{url('/brand')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{url('admin/brand')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             <div class="form-group">

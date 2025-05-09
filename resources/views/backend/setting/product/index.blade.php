@@ -6,7 +6,7 @@
 @section('content')
 <div class="container py-4">
     <h2 class="fw-bold">🛒 Product Management</h2>
-    <a href="{{ url('/product/create') }}" class="btn btn-primary mt-2 mb-2"><i class="fas fa-plus-circle"></i> Add Product</a>
+    <a href="{{ url('admin/product/create') }}" class="btn btn-primary mt-2 mb-2"><i class="fas fa-plus-circle"></i> Add Product</a>
 
     @if(session('success'))
         <script>
@@ -48,8 +48,8 @@
                             <td>{{ Str::limit($item->description, 50) }}</td>
                             <td><span class="badge bg-info">${{ number_format($item->price, 2) }}</span></td>
                             <td>
-                                <a href="{{ url('product/'.$item->id.'/edit') }}" class="btn btn-warning btn-sm"><i class="far fa-edit"></i> ✏️ Edit</a>
-                                <form action="{{ url('product/'.$item->id) }}" method="POST" class="d-inline delete-form">
+                                <a href="{{ url('admin/product/'.$item->id.'/edit') }}" class="btn btn-warning btn-sm"><i class="far fa-edit"></i> ✏️ Edit</a>
+                                <form action="{{ url('admin/product/'.$item->id) }}" method="POST" class="d-inline delete-form">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="btn btn-danger btn-sm delete-btn">

@@ -12,6 +12,10 @@ use Illuminate\Http\Request;
 
 class BDashboardController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
     public function index()
     {
         // Existing stats
