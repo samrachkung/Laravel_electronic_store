@@ -78,7 +78,8 @@ class BProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $products = Product::find($id);
+        return view('backend.setting.product.show')->with('products', $products);
     }
 
     /**

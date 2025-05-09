@@ -14,13 +14,8 @@ class UserController extends Controller
     public function index()
     {
         $users = User::with('roles')->paginate(10);
-        return view('backend.users.index', compact('users'));
-    }
-
-    public function create()
-    {
-        $roles = Role::all();
-        return view('backend.users.form', compact('roles'));
+        $roles = Role::all(); // For the create modal
+        return view('backend.users.index', compact('users', 'roles'));
     }
 
     public function store(Request $request)
@@ -39,18 +34,12 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'active' => $request->active ?? false,
-            'language' => $request->language
+            'language' => $request->language ?? 'en'
         ]);
 
         $user->roles()->sync($request->roles);
 
         return redirect()->route('admin.users.index')->with('success', 'User created successfully');
-    }
-
-    public function edit(User $user)
-    {
-        $roles = Role::all();
-        return view('users.edit', compact('user', 'roles'));
     }
 
     public function update(Request $request, User $user)
@@ -74,7 +63,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'active' => $request->active ?? false,
-            'language' => $request->language
+            'language' => $request->language ?? $user->language
         ]);
 
         if ($request->filled('password')) {
@@ -83,12 +72,17 @@ class UserController extends Controller
 
         $user->roles()->sync($request->roles);
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully');
+        return redirect()->route('admin.users.index')->with('success', 'User updated successfully');
     }
 
     public function destroy(User $user)
     {
+        // Prevent deleting yourself
+        if ($user->id === auth()->id()) {
+            return redirect()->route('admin.users.index')->with('error', 'You cannot delete your own account!');
+        }
+
         $user->delete();
-        return redirect()->route('users.index')->with('success', 'User deleted successfully');
+        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully');
     }
 }

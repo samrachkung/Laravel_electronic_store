@@ -53,7 +53,9 @@ class BBrandController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $brands = Brand::find($id);
+        return view('backend.setting.brand.show')->with('brands', $brands);
+        
     }
 
     /**

@@ -60,6 +60,15 @@ class BCateogryController extends Controller
     }
 
     /**
+     * Show the details of the specified category.
+     */
+    public function show(string $id)
+    {
+        $category = Category::findOrFail($id);
+        return view('backend.setting.category.show')->with('category', $category);
+    }
+
+    /**
      * Update the specified category in storage.
      */
     public function update(Request $request, string $id)
