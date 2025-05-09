@@ -26,7 +26,7 @@
                         <h3 class="card-title">Edit Brand</h3>
                     </div>
 
-                    <form action="{{url('brand/'.$brands->id)}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{url('admin/brand/'.$brands->id)}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 

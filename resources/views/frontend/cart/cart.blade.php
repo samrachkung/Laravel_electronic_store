@@ -106,7 +106,8 @@
 
         function updateCartQuantity(cartId, quantity) {
             $.ajax({
-                url: "{{ route('cart.update') }}"
+                url: "{{ route('frontend.cart.update') }}"
+
                 , method: "POST"
                 , data: {
                     id: cartId
@@ -158,7 +159,8 @@
                 , cancelButtonText: "Cancel"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.post("{{ route('cart.remove') }}", {
+                    $.post("{{ route('frontend.cart.remove') }}", {
+
                         id: cartId
                         , _token: "{{ csrf_token() }}"
                     }, function(response) {

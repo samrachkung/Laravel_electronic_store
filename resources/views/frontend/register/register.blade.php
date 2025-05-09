@@ -79,7 +79,8 @@
         </div>
 
         <div class="col-md-7 py-3 py-md-0" id="side2">
-            <form action="{{ route('registerUser') }}" method="POST" id="registerForm">
+            <form action="{{ route('frontend.register.post') }}" method="POST" id="registerForm">
+
                 @csrf
                 <h3 class="text-center">Create Account</h3>
                 <div class="text-center">

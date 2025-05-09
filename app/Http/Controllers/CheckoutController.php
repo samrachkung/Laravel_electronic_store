@@ -89,8 +89,8 @@ class CheckoutController extends Controller
                 'payment_method_types' => ['card'],
                 'line_items' => $lineItems,
                 'mode' => 'payment',
-                'success_url' => route('checkout.success', ['order' => $order->id], true),
-                'cancel_url' => route('checkout.cancel', ['order' => $order->id], true),
+                'success_url' => route('frontend.checkout.success', ['order' => $order->id], true),
+                'cancel_url' => route('frontend.checkout.cancel', ['order' => $order->id], true),
             ]);
 
             DB::commit();
@@ -126,8 +126,8 @@ class CheckoutController extends Controller
             'payment_method_types' => ['card'],
             'line_items' => $lineItems,
             'mode' => 'payment',
-            'success_url' => route('checkout.success', ['order' => $order->id], true),
-            'cancel_url' => route('checkout.cancel', ['order' => $order->id], true),
+            'success_url' => route('frontend.checkout.success', ['order' => $order->id], true),
+            'cancel_url' => route('frontend.checkout.cancel', ['order' => $order->id], true),
         ]);
 
         return redirect($session->url);
@@ -154,6 +154,6 @@ class CheckoutController extends Controller
     public function cancel(Request $request)
     {
 
-        return redirect()->route('checkout.index')->with('error', 'Payment was canceled. Please try again.');
+        return redirect()->route('frontend.checkout.index')->with('error', 'Payment was canceled. Please try again.');
     }
 }

@@ -23,6 +23,11 @@ class Order extends Model
 
     ];
 
+    protected $casts = [
+        'total_amount' => 'decimal:2',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
+    ];
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -35,5 +40,42 @@ class Order extends Model
     public function address()
     {
         return $this->hasOne(Address::class);
+    }
+
+    // Status helpers
+    public function isNew()
+    {
+        return $this->status === 'new';
+    }
+
+    public function isProcessing()
+    {
+        return $this->status === 'processing';
+    }
+
+    public function isShipped()
+    {
+        return $this->status === 'shipped';
+    }
+
+    public function isDelivered()
+    {
+        return $this->status === 'delivered';
+    }
+
+    public function isCanceled()
+    {
+        return $this->status === 'canceled';
+    }
+
+    // Payment status helper
+    public function isPaid()
+    {
+        return $this->payment_status === 'paid';
+    }
+
+    public function isRefunded()
+    {
+        return $this->payment_status === 'refunded';
     }
 }

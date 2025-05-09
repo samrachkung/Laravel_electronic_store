@@ -43,9 +43,9 @@ class BBrandController extends Controller
             $validated['image'] = $imagePath;
         }
 
-        Brand::create($input,$validated);
+        Brand::create(array_merge($input, $validated));
 
-        return redirect('/brand')->with('success', 'Brand created successfully.');
+        return redirect('/admin/brand')->with('success', 'Brand created successfully.');
     }
 
     /**
@@ -53,7 +53,9 @@ class BBrandController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $brands = Brand::find($id);
+        return view('backend.setting.brand.show')->with('brands', $brands);
+        
     }
 
     /**
@@ -87,7 +89,7 @@ class BBrandController extends Controller
 
         $brand->update($input,$validated);
 
-        return redirect('/brand')->with('info', 'Brand updated successfully.');
+        return redirect('/admin/brand')->with('info', 'Brand updated successfully.');
     }
 
     /**
@@ -96,6 +98,6 @@ class BBrandController extends Controller
     public function destroy(string $id)
     {
         Brand::destroy($id);
-        return redirect('/brand')->with('error', 'Brand deleted successfully.');
+        return redirect('/admin/brand')->with('error', 'Brand deleted successfully.');
     }
 }

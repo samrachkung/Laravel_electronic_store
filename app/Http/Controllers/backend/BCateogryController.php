@@ -38,7 +38,7 @@ class BCateogryController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'is_active' => 'required|boolean',
         ]);
-        $input = $request->input();
+        $input = array_merge($request->input(), $validated);
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
@@ -46,8 +46,8 @@ class BCateogryController extends Controller
             $input['image'] = 'frontend/images/category_images/' . $imageName;
         }
         // Store the category
-        Category::create($input,$validated);
-        return redirect('/category')->with('success', 'Category created successfully');
+        Category::create($input);
+        return redirect('/admin/category')->with('success', 'Category created successfully');
     }
 
     /**
@@ -57,6 +57,15 @@ class BCateogryController extends Controller
     {
         $category = Category::findOrFail($id);
         return view('backend.setting.category.edit')->with('category', $category);
+    }
+
+    /**
+     * Show the details of the specified category.
+     */
+    public function show(string $id)
+    {
+        $category = Category::findOrFail($id);
+        return view('backend.setting.category.show')->with('category', $category);
     }
 
     /**
@@ -84,7 +93,7 @@ class BCateogryController extends Controller
             $input['image'] = 'frontend/images/category_images/' . $imageName;
         }
         $category->update($input,$validated);
-        return redirect('/category')->with('info', 'Category updated successfully');
+        return redirect('/admin/category')->with('info', 'Category updated successfully');
     }
 
     /**
@@ -93,6 +102,6 @@ class BCateogryController extends Controller
     public function destroy(string $id)
     {
         Category::destroy($id);
-        return redirect('/category')->with('error', 'Category deleted successfully');
+        return redirect('/admin/category')->with('error', 'Category deleted successfully');
     }
 }

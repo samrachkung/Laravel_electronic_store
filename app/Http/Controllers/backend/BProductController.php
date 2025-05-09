@@ -70,7 +70,7 @@ class BProductController extends Controller
         }
 
         Product::create($input, $validated);
-        return redirect('/product')->with('success', 'Product created successfully');
+        return redirect('/admin/product')->with('success', 'Product created successfully');
     }
 
     /**
@@ -78,7 +78,8 @@ class BProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $products = Product::find($id);
+        return view('backend.setting.product.show')->with('products', $products);
     }
 
     /**
@@ -146,7 +147,7 @@ class BProductController extends Controller
 
         $product->update($validated);
 
-        return redirect('/product')->with('info', 'Product updated successfully');
+        return redirect('/admin/product')->with('info', 'Product updated successfully');
     }
 
 
@@ -170,6 +171,6 @@ class BProductController extends Controller
 
         $product->delete();
 
-        return redirect('/product')->with('error', 'Product deleted successfully');
+        return redirect('/admin/product')->with('error', 'Product deleted successfully');
     }
 }

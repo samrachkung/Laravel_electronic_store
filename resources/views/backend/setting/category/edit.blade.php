@@ -27,7 +27,7 @@
                         <h3 class="card-title">Edit Category</h3>
                     </div>
 
-                    <form action="{{url('category/'.$category->id)}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{url('admin/category/'.$category->id)}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="card-body">

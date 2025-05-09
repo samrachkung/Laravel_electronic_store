@@ -3,16 +3,16 @@
     <p>WELCOME TO OUR SHOP</p>
     <div class="icons">
         @if(Auth::check())
-        <form action="{{ route('logout') }}" method="POST">
+        <form action="{{ route('frontend.logout') }}" method="POST">
             @csrf
             <button type="submit" class="btn" style="border: none; background: none;">
                 <img src="{{asset('frontend/images/register.png')}}" alt="" width="18px"> Logout
             </button>
         </form>
         @else
-        <a class="nav-link" href="{{ route('login') }}"><img src="{{asset('frontend/images/register.png')}}" alt="" width="18px"> Login</a>
+        <a class="nav-link" href="{{ route('frontend.login') }}"><img src="{{asset('frontend/images/register.png')}}" alt="" width="18px"> Login</a>
         @endif
-        <a class="nav-link" href="{{url('/register')}}"><img src="{{asset('frontend/images/register.png')}}" alt="" width="18px"> Register</a>
+        <a class="nav-link" href="{{ route('frontend.register') }}"><img src="{{asset('frontend/images/register.png')}}" alt="" width="18px"> Register</a>
     </div>
 </div>
 <!-- top navbar -->

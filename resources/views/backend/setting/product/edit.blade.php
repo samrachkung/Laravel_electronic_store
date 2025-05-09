@@ -40,7 +40,7 @@
                         <h3 class="card-title">Edit Product</h3>
                     </div>
 
-                    <form action="{{url('product/'.$products->id)}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{url('admin/product/'.$products->id)}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="card-body">
