@@ -76,50 +76,71 @@ class CartController extends Controller
         $cart->quantity = $request->quantity;
         $cart->save();
 
-        // Get the product price from the products table
+        // Get the product price and calculate new total for this item
         $product = Product::find($cart->product_id);
         if (!$product) {
             return response()->json(['success' => false, 'message' => 'Product not found.']);
         }
 
-        $productPrice = $product->price;
+        $newTotal = $cart->quantity * $product->price;
 
-        // Calculate new total for this item
-        $newTotal = $cart->quantity * $productPrice;
-
-        // Calculate grand total (sum of all cart items)
-        $grandTotal = Cart::join('products', 'carts.product_id', '=', 'products.id')
+        // Calculate grand total for ALL user cart items
+        $userTotal = Cart::where('user_id', $cart->user_id)
+            ->join('products', 'carts.product_id', '=', 'products.id')
             ->selectRaw('SUM(carts.quantity * products.price) as total')
-            ->first()->total;
+            ->value('total') ?? 0;
 
         return response()->json([
             'success' => true,
             'newTotal' => $newTotal,
-            'grandTotal' => $grandTotal
+            'grandTotal' => $userTotal
         ]);
     }
 
     public function removeCart(Request $request)
     {
-        $productId = $request->input('id');
+        $cartItemId = $request->input('id');
         $user = auth()->user();
 
-        if (!$productId) {
-            return response()->json(['success' => false, 'message' => 'Product ID is missing'], 400);
+        if (!$cartItemId) {
+            return response()->json(['success' => false, 'message' => 'Cart item ID is missing'], 400);
         }
 
         if ($user) {
-            $cartItem = Cart::where('user_id', $user->id)->where('id', $productId)->first();
+            $cartItem = Cart::where('user_id', $user->id)->where('id', $cartItemId)->first();
             if ($cartItem) {
                 $cartItem->delete();
-                return response()->json(['success' => true, 'message' => 'Product removed successfully']);
+
+                // Return updated grand total after removal
+                $grandTotal = Cart::where('user_id', $user->id)
+                    ->join('products', 'carts.product_id', '=', 'products.id')
+                    ->selectRaw('SUM(carts.quantity * products.price) as total')
+                    ->value('total') ?? 0;
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Product removed successfully',
+                    'grandTotal' => $grandTotal
+                ]);
             }
         } else {
+            // Session cart handling remains the same
             $cart = session()->get('cart', []);
-            if (isset($cart[$productId])) {
-                unset($cart[$productId]);
+            if (isset($cart[$cartItemId])) {
+                unset($cart[$cartItemId]);
                 session()->put('cart', $cart);
-                return response()->json(['success' => true, 'message' => 'Product removed successfully']);
+
+                // Calculate session cart total
+                $sessionTotal = 0;
+                foreach ($cart as $item) {
+                    $sessionTotal += $item['price'] * $item['quantity'];
+                }
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Product removed successfully',
+                    'grandTotal' => $sessionTotal
+                ]);
             }
         }
 

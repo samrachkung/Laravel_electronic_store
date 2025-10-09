@@ -38,7 +38,7 @@
                     <a href="{{url('/dashboard')}}" class="nav-link @yield('d_active')">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            Dashboard
+                            {{__('messages.dashboard')}}
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -46,7 +46,7 @@
                         <li class="nav-item ">
                             <a href="{{url('/admin/dashboard')}}" class="nav-link @yield('d_active')">
                                 <i class="fas fa-tachometer-alt nav-icon"></i>
-                                <p>Dashboard</p>
+                                <p>{{__('messages.dashboard')}}</p>
                             </a>
                         </li>
                     </ul>
@@ -56,7 +56,7 @@
                     <a href="{{url('/order')}}" class="nav-link @yield('o_active')">
                         <i class="nav-icon fas fa-shopping-cart"></i>
                         <p>
-                            Order
+                            {{__('messages.orders')}}
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -64,7 +64,7 @@
                         <li class="nav-item ">
                             <a href="{{url('/admin/order')}}" class="nav-link @yield('o_active')">
                                 <i class="fas fa-shopping-cart nav-icon"></i>
-                                <p>Order</p>
+                                <p>{{__('messages.orders')}}</p>
                             </a>
                         </li>
                     </ul>
@@ -74,7 +74,7 @@
                     <a href="{{url('/admin/product')}}" class="nav-link @yield('pro_active')">
                         <i class="nav-icon fab fa-product-hunt"></i>
                         <p>
-                            Product
+                            {{__('messages.products')}}
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -82,7 +82,7 @@
                         <li class="nav-item ">
                             <a href="{{url('/admin/product')}}" class="nav-link @yield('pro_active')">
                                 <i class="fab fa-product-hunt nav-icon"></i>
-                                <p>Product</p>
+                                <p>{{__('messages.products')}}</p>
                             </a>
                         </li>
                     </ul>
@@ -95,7 +95,8 @@
 
                         <i class="nav-icon fas fa-warehouse"></i>
                         <p>
-                            Warehouse
+                            {{__('messages.warehouses')}}
+
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -104,7 +105,8 @@
                             <a href="{{url('/admin/warehouse')}}" class="nav-link @yield('ware_active')">
 
                                 <i class="nav-icon fas fa-warehouse"></i>
-                                <p>Warehouse</p>
+                                <p>{{__('messages.warehouses')}}</p>
+
                             </a>
                         </li>
                     </ul>
@@ -116,7 +118,7 @@
 
                         <i class="nav-icon fas fa-wallet"></i>
                         <p>
-                            Income
+                            {{__('messages.income')}}
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -125,7 +127,7 @@
                             <a href="{{url('/admin/income')}}" class="nav-link @yield('in_active')">
 
                                 <i class="fas fa-wallet nav-icon"></i>
-                                <p>Income</p>
+                                <p>{{__('messages.income')}}</p>
                             </a>
                         </li>
                     </ul>
@@ -136,7 +138,7 @@
                     <a href="{{url('/admin/sales')}}" class="nav-link @yield('sale_active')">
                         <i class="nav-icon fas fa-dollar-sign"></i>
                         <p>
-                            Sale
+                            {{__('messages.sales')}}
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -144,7 +146,7 @@
                         <li class="nav-item ">
                             <a href="{{url('/admin/sales')}}" class="nav-link @yield('sale_active')">
                                 <i class="fas fa-dollar-sign nav-icon"></i>
-                                <p>Sale</p>
+                                <p>{{__('messages.sales')}}</p>
                             </a>
                         </li>
                     </ul>
@@ -155,7 +157,7 @@
                     <a href="{{url('/admin/users')}}" class="nav-link @yield('user_active')">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
-                            User
+                            {{__('messages.users')}}
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -163,7 +165,7 @@
                         <li class="nav-item ">
                             <a href="{{url('/admin/users')}}" class="nav-link @yield('user_active')">
                                 <i class="nav-icon fas fa-user"></i>
-                                <p>User</p>
+                                <p>{{__('messages.users')}}</p>
                             </a>
                         </li>
                     </ul>
@@ -174,7 +176,7 @@
                     <a href="{{url('/admin/product')}}" class="nav-link @yield('active')">
                         <i class="nav-icon fas fa-address-card"></i>
                         <p>
-                            Service
+                            {{__('messages.services')}}
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -182,7 +184,7 @@
                         <li class="nav-item ">
                             <a href="{{url('/admin/product')}}" class="nav-link @yield('active')">
                                 <i class="fas fa-address-card nav-icon"></i>
-                                <p>Service</p>
+                                <p>{{__('messages.services')}}</p>
                             </a>
                         </li>
                     </ul>
@@ -194,7 +196,7 @@
                     <a href="#" class="nav-link @yield('p_active')">
                         <i class="nav-icon fas fa-cog"></i>
                         <p>
-                            Setting
+                            {{__('messages.settings')}}
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -202,13 +204,13 @@
                         <li class="nav-item">
                             <a href="{{url('/admin/category')}}" class="nav-link @yield('p_active')">
                                 <i class="fas fa-copyright nav-icon"></i>
-                                <p>Category</p>
+                                <p>{{__('messages.categories')}}</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{url('/admin/brand')}}" class="nav-link @yield('b_active')">
                                 <i class="fas fa-bold nav-icon"></i>
-                                <p>Brand</p>
+                                <p>{{__('messages.brands')}}</p>
                             </a>
                         </li>
                     </ul>

@@ -29,7 +29,7 @@
             <div class="col-lg-4 col-6">
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>{{ number_format($totalIncome, 2) }}</h3>
+                        <h3>$ {{ number_format($totalIncome, 2) }}</h3>
                         <p>Total Income</p>
                     </div>
                     <div class="icon">
@@ -42,7 +42,7 @@
             <div class="col-lg-4 col-6">
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>{{ number_format($todayIncome, 2) }}</h3>
+                        <h3>$ {{ number_format($todayIncome, 2) }}</h3>
                         <p>Today's Income</p>
                     </div>
                     <div class="icon">
@@ -55,7 +55,7 @@
             <div class="col-lg-4 col-6">
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3>{{ number_format($monthIncome, 2) }}</h3>
+                        <h3>$ {{ number_format($monthIncome, 2) }}</h3>
                         <p>Monthly Income</p>
                     </div>
                     <div class="icon">

@@ -69,4 +69,21 @@
     'current_password' => 'Current Password',
     'new_password' => 'New Password',
 
+    //backend
+    'dashboard' => 'Dashboard',
+    'users' => 'Users',
+    // 'products' => 'Products',
+    'orders' => 'Orders',
+    'warehouse' => 'Warehouse',
+    'income' => 'Income',
+    'sales' => 'Sales',
+    'services' => 'Services',
+    'warehouses' => 'Warehouses',
+    'settings' => 'Settings',
+    'brands' => 'Brands',
+
+    'stock' => 'Stock',
+    'Status' => 'Status',
+    'active' => 'Active',
+    
     ];

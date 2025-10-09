@@ -59,5 +59,35 @@ return [
     'forgot_password' => 'ភ្លេចពាក្យសម្ងាត់?',
     'reset_password' => 'កំណត់ពាក្យសម្ងាត់ឡើងវិញ',
 
+    //backend
+    'dashboard' => 'ផ្ទាំងគ្រប់គ្រង',
+    'users' => 'អ្នកប្រើប្រាស់',
+    'orders' => 'ការបញ្ជាទិញ',
+    'settings' => 'ការកំណត់',
+    'profile' => 'ប្រវត្តិរូប',
+    'logout' => 'ចាកចេញ',
+    'income' => 'ចំណូល',
+    'sales' => 'ការលក់',
+    'services' => 'សេវាកម្ម',
+    'warehouses' => 'ឃ្លាំង',
+
+    'stock' => 'ស្តុក',
+    'Status' => 'ស្ថានភាព',
+    'active' => 'សកម្ម',
+    'inactive' => 'មិនសកម្ម',
+    'add' => 'បន្ថែម',
+    'edit' => 'កែសម្រួល',
+    'delete' => 'លុប',
+    'update' => 'កែប្រែ',
+    'save' => 'រក្សាទុក',
+    'cancel' => 'បោះបង់',
+    'Filter_Products' => 'តម្រងផលិតផល',
+    'Filter' => 'តម្រង',
+    'Low_Stock_Products' => 'ផលិតផលដែលមានស្តុកទាប',
+    'Low_Stock' => 'ស្តុកទាប',
+    'Out_of_Stock_Products' => 'ផលិតផលដែលអស់ស្តុក',
+    'Product_Inventory' => 'ស្តុកផលិតផល',
+    'Product_Management' => 'ការគ្រប់គ្រងផលិតផល',
+    
 
 ];
