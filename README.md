@@ -44,8 +44,8 @@ A full-featured Laravel e-commerce platform with Stripe payment integration, adm
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repository-url>
-   cd your-project-name
+   git clone https://github.com/samrachkung/Laravel_electronic_store.git
+   cd Laravel_electronic_store
    ```
 
 2. **Install PHP dependencies**
