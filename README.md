@@ -1,176 +1,510 @@
-# Electronic Store
+# E-Commerce Platform
 
-## Features
+A full-featured Laravel e-commerce platform with Stripe payment integration, admin panel, and customer management system.
 
-- **User Authentication:**
-    - Registration✅
-    - Login✅
-    - Password Reset
+## 🚀 Features
 
-- **Product Management:**
-    - Add, Edit, Delete Products✅
-    - Product Categories✅
-    - Product Reviews
+### Customer Features
+- ✅ User registration & authentication
+- ✅ Product catalog with categories & brands
+- ✅ Shopping cart functionality
+- ✅ Secure Stripe checkout
+- ✅ Order management & tracking
+- ✅ Invoice generation (PDF)
+- ✅ Order status tracking with progress bar
+- ✅ Multi-language support (English, Khmer, French)
 
-- **Shopping Cart:**
-    - Add to Cart✅
-    - Update Cart✅
-    - Remove from Cart✅
+### Admin Features
+- ✅ Admin dashboard with analytics
+- ✅ Product management (CRUD)
+- ✅ Category & brand management
+- ✅ Order management & status updates
+- ✅ Inventory management (warehouse)
+- ✅ Sales reporting & income tracking
+- ✅ User management
 
-- **Order Management:**
-    - Place Orders✅
-    - Order History
-    - Order Tracking✅
+## 🛠️ Technology Stack
 
-- **Admin Dashboard:**
-    - User Management
-    - Order Management✅
-    - Product Management✅
+- **Backend**: Laravel 10.x
+- **Frontend**: Bootstrap 5, jQuery
+- **Database**: MySQL
+- **Payment**: Stripe Integration
+- **PDF Generation**: DomPDF
+- **Icons**: Bootstrap Icons, Font Awesome
 
-- **Search Functionality:**
-    - Search Products by Name, Category, and Tags
+## 📦 Installation
 
-- **Responsive Design:**
-    - Mobile and Tablet Friendly✅
+### Prerequisites
+- PHP 8.1+
+- Composer
+- MySQL 5.7+
+- Node.js & NPM
 
-- **API Integration:**
-    - RESTful API for Mobile App Integration
+### Step-by-Step Installation
 
-- **Payment Gateway:**
-    - Integration with popular payment gateways✅
+1. **Clone the repository**
+   ```bash
+   git clone <your-repository-url>
+   cd your-project-name
+   ```
 
-- **Notifications:**
-    - Email Notifications for Orders and Account Activities ✅
+2. **Install PHP dependencies**
+   ```bash
+   composer install
+   ```
 
-- **Wishlist:**
-    - Add Products to Wishlist
-    - Manage Wishlist Items
+3. **Install frontend dependencies**
+   ```bash
+   npm install
+   npm run build
+   ```
 
-- **Live Chat Support:**
-    - Real-time Chat with Customer Support
+4. **Environment setup**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-- **Discounts and Coupons:**
-    - Apply Discount Codes
-    - Manage Promotional Offers
+5. **Configure environment variables**
+   Edit `.env` file:
+   ```env
+   DB_DATABASE=your_database_name
+   DB_USERNAME=your_database_username
+   DB_PASSWORD=your_database_password
+   
+   STRIPE_KEY=your_stripe_publishable_key
+   STRIPE_SECRET=your_stripe_secret_key
+   ```
 
-- **Multi-language Support:**
-    - Support for Multiple Languages
+6. **Database setup**
+   ```bash
+   php artisan migrate --seed
+   ```
 
-- **Multi-currency Support:**
-    - Display Prices in Different Currencies
+7. **Storage link**
+   ```bash
+   php artisan storage:link
+   ```
 
-- **Analytics and Reports:**
-    - Sales Reports
-    - User Activity Reports
+8. **Start development server**
+   ```bash
+   php artisan serve
+   ```
 
-- **Product Recommendations:**
-    - Personalized Product Suggestions
+## 🔧 Configuration
 
-- **Social Media Integration:**
-    - Share Products on Social Media
-    - Social Login Options
+### Stripe Configuration
+1. Create a Stripe account at [stripe.com](https://stripe.com)
+2. Get your API keys from Stripe Dashboard
+3. Add them to your `.env` file:
+   ```env
+   STRIPE_KEY=pk_test_your_publishable_key
+   STRIPE_SECRET=sk_test_your_secret_key
+   ```
 
-- **Inventory Management:**
-    - Track Stock Levels
-    - Low Stock Alerts
+### File Upload Configuration
+Ensure your `uploads/image` directory is writable:
+```bash
+chmod -R 755 storage
+chmod -R 755 public/uploads
+```
 
-- **Customer Reviews and Ratings:**
-    - Allow Customers to Rate and Review Products
+## 👥 User Roles
 
-- **Gift Cards:**
-    - Purchase and Redeem Gift Cards
+### Customer
+- Browse products and categories
+- Add products to cart
+- Place orders with Stripe payment
+- View order history and status
+- Download invoices
 
-- **Advanced Security:**
-    - Two-Factor Authentication
-    - Data Encryption
+### Administrator
+- Manage all products, categories, and brands
+- Process orders and update status
+- View sales reports and analytics
+- Manage inventory levels
+- View customer information
 
+## 🛒 Shopping Flow
 
-## Database Design
+1. **Browse Products** → Customers can view products by category/brand
+2. **Add to Cart** → Select products and quantities
+3. **Checkout** → Secure Stripe payment process
+4. **Order Confirmation** → Automatic cart clearance and stock update
+5. **Order Tracking** → Real-time status updates
+6. **Invoice Download** → PDF invoice generation
 
-  **Table**
+# E-Commerce Platform - Complete Route Documentation
 
-- Users   
-- Products
-- Categories  
-- Orders  
-- Order Items 
-- Shopping Cart   
-- Wishlist
-- Reviews 
-- Payments
-- Coupons 
-- Notifications   
-- Analytics   
-- Chat Messages   
-- Languages   
-- Currencies  
-- Gift Cards  
-- Inventory   
+## 🌐 Application Routes Overview
 
+This document provides a comprehensive overview of all available routes in the e-commerce platform.
 
-The database design for the electronic store includes the following key tables:
+## 🏠 Frontend Routes
 
-- **Users Table:**
-    - Stores user information such as 
-    username, 
-    email, 
-    password, 
-    roles (e.g., admin, customer, seller).,
-    permission (e.g., full, read, write).,
+### Public Routes (Unauthenticated)
 
+| Method | URI | Name | Controller | Action |
+|--------|-----|------|------------|---------|
+| GET | `/` | `frontend.home` | `HomeController` | `index` |
+| GET | `/about` | `frontend.about` | `AboutController` | `about` |
+| GET | `/contact` | `frontend.contact` | `ContactController` | `contact` |
+| GET | `/shop` | `frontend.shop` | `ShopController` | `shop` |
 
-- **Products Table:**
-    - Contains product details like 
-    name, 
-    description, 
-    price, 
-    stock quantity
-    , category
-    ,  images.
+### Authentication Routes
 
-- **Categories Table:**
-    - Manages product categories with fields for category name and description.
+| Method | URI | Name | Controller | Action |
+|--------|-----|------|------------|---------|
+| GET | `/auth/login` | `frontend.login` | `LoginController` | `login` |
+| POST | `/auth/login` | `frontend.login.post` | `LoginController` | `authenticate` |
+| POST | `/auth/logout` | `frontend.logout` | `LoginController` | `logout` |
+| GET | `/auth/register` | `frontend.register` | `RegisterController` | `register` |
+| POST | `/auth/register` | `frontend.register.post` | `RegisterController` | `registerUser` |
 
-- **Orders Table:**
-    - Tracks order details including user ID, order date, total amount, and order status.
+### Shopping Cart Routes
 
-- **Order Items Table:**
-    - Links products to orders with fields for order ID, product ID, quantity, and price.
+| Method | URI | Name | Controller | Action |
+|--------|-----|------|------------|---------|
+| GET | `/cart` | `frontend.cart` | `CartController` | `cart` |
+| GET | `/cart/view` | `frontend.cart.view` | `CartController` | `viewCart` |
+| POST | `/cart/add` | `frontend.cart.add` | `CartController` | `addToCart` |
+| POST | `/cart/remove` | `frontend.cart.remove` | `CartController` | `removeCart` |
+| POST | `/cart/update` | `frontend.cart.update` | `CartController` | `updateCart` |
 
-- **Shopping Cart Table:**
-    - Stores temporary cart data for users, including user ID, product ID, and quantity.
+### Authenticated User Routes
 
-- **Wishlist Table:**
-    - Manages user wishlists with fields for user ID and product ID.
+| Method | URI | Name | Controller | Action |
+|--------|-----|------|------------|---------|
+| GET | `/myorder` | `frontend.myorder` | `MyOrderController` | `myorder` |
+| GET | `/order/{orderId}/invoice` | `frontend.order.printInvoice` | `MyOrderController` | `printInvoice` |
 
-- **Reviews Table:**
-    - Stores customer reviews and ratings with fields for product ID, user ID, rating, and review text.
+### Checkout Routes (Authenticated)
 
-- **Payments Table:**
-    - Tracks payment transactions with fields for order ID, payment method, amount, and status.
+| Method | URI | Name | Controller | Action |
+|--------|-----|------|------------|---------|
+| GET | `/checkout` | `frontend.checkout.index` | `CheckoutController` | `index` |
+| POST | `/checkout/placeOrder` | `frontend.checkout.placeOrder` | `CheckoutController` | `placeOrder` |
+| GET | `/checkout/success/{order}` | `frontend.checkout.success` | `CheckoutController` | `success` |
+| GET | `/checkout/cancel/{order}` | `frontend.checkout.cancel` | `CheckoutController` | `cancel` |
 
-- **Coupons Table:**
-    - Manages discount codes with fields for code, discount percentage, expiration date, and usage limits.
+## 🔧 API Routes
 
-- **Notifications Table:**
-    - Stores notification data for emails and alerts with fields for user ID, type, and message.
+### Product API
 
-- **Analytics Table:**
-    - Logs user activity and sales data for generating reports.
+| Method | URI | Name | Controller | Action |
+|--------|-----|------|------------|---------|
+| GET | `/api/products/{id}` | `frontend.` | Closure | Return product details |
 
-- **Chat Messages Table:**
-    - Stores live chat messages with fields for user ID, admin ID, message content, and timestamp.
+### Admin API Routes
 
-- **Languages Table:**
-    - Manages supported languages with fields for language code and name.
+| Method | URI | Name | Controller | Action |
+|--------|-----|------|------------|---------|
+| POST | `/api/admin/auth/login` | - | `AdminAuthController` | `login` |
+| POST | `/api/admin/auth/logout` | - | `AdminAuthController` | `logout` |
+| GET | `/api/admin/auth/me` | - | `AdminAuthController` | `me` |
+| GET | `/api/admin/dashboard` | - | `BDashboardController` | `dashboard` |
 
-- **Currencies Table:**
-    - Tracks supported currencies with fields for currency code, symbol, and exchange rate.
+### User API Routes
 
-- **Gift Cards Table:**
-    - Stores gift card details like code, balance, and expiration date.
+| Method | URI | Name | Controller | Action |
+|--------|-----|------|------------|---------|
+| GET | `/api/auth/csrf-cookie` | - | - | CSRF Cookie |
+| POST | `/api/auth/login` | - | `UserAuthController` | `login` |
+| POST | `/api/auth/logout` | - | `UserAuthController` | `logout` |
+| GET | `/api/auth/me` | - | `UserAuthController` | `me` |
+| POST | `/api/auth/register` | - | `UserAuthController` | `register` |
 
-- **Inventory Table:**
-    - Tracks stock levels and low stock alerts for products.
+## 👨‍💼 Admin Panel Routes
 
-This database structure ensures efficient data management and supports all the features of the electronic store.
+### Authentication
+
+| Method | URI | Name | Controller | Action |
+|--------|-----|------|------------|---------|
+| GET | `/admin/login` | `admin.login` | `AdminAuthController` | `getloginpage` |
+| POST | `/admin/login` | `admin.login.post` | `AdminAuthController` | `postlogin` |
+
+### Dashboard
+
+| Method | URI | Name | Controller | Action |
+|--------|-----|------|------------|---------|
+| GET | `/admin/dashboard` | `admin.dashboard` | `BDashboardController` | `index` |
+| GET | `/admin/dashboard/data` | `admin.` | `BDashboardController` | `getChartData` |
+
+### Product Management
+
+| Method | URI | Name | Controller | Action |
+|--------|-----|------|------------|---------|
+| GET | `/admin/product` | `admin.product.index` | `BProductController` | `index` |
+| POST | `/admin/product` | `admin.product.store` | `BProductController` | `store` |
+| GET | `/admin/product/create` | `admin.product.create` | `BProductController` | `create` |
+| GET | `/admin/product/{product}` | `admin.product.show` | `BProductController` | `show` |
+| PUT/PATCH | `/admin/product/{product}` | `admin.product.update` | `BProductController` | `update` |
+| DELETE | `/admin/product/{product}` | `admin.product.destroy` | `BProductController` | `destroy` |
+| GET | `/admin/product/{product}/edit` | `admin.product.edit` | `BProductController` | `edit` |
+
+### Category Management
+
+| Method | URI | Name | Controller | Action |
+|--------|-----|------|------------|---------|
+| GET | `/admin/category` | `admin.category.index` | `BCateogryController` | `index` |
+| POST | `/admin/category` | `admin.category.store` | `BCateogryController` | `store` |
+| GET | `/admin/category/create` | `admin.category.create` | `BCateogryController` | `create` |
+| PUT/PATCH | `/admin/category/{category}` | `admin.category.update` | `BCateogryController` | `update` |
+| DELETE | `/admin/category/{category}` | `admin.category.destroy` | `BCateogryController` | `destroy` |
+| GET | `/admin/category/{category}/edit` | `admin.category.edit` | `BCateogryController` | `edit` |
+
+### Brand Management
+
+| Method | URI | Name | Controller | Action |
+|--------|-----|------|------------|---------|
+| GET | `/admin/brand` | `admin.brand.index` | `BBrandController` | `index` |
+| POST | `/admin/brand` | `admin.brand.store` | `BBrandController` | `store` |
+| GET | `/admin/brand/create` | `admin.brand.create` | `BBrandController` | `create` |
+| PUT/PATCH | `/admin/brand/{brand}` | `admin.brand.update` | `BBrandController` | `update` |
+| DELETE | `/admin/brand/{brand}` | `admin.brand.destroy` | `BBrandController` | `destroy` |
+| GET | `/admin/brand/{brand}/edit` | `admin.brand.edit` | `BBrandController` | `edit` |
+
+### Order Management
+
+| Method | URI | Name | Controller | Action |
+|--------|-----|------|------------|---------|
+| GET | `/admin/order` | `admin.orders.index` | `BOrderController` | `index` |
+| GET | `/admin/order/{id}` | `admin.orders.show` | `BOrderController` | `show` |
+| POST | `/admin/order/{id}` | `admin.order.updateStatus` | `BOrderController` | `updateStatus` |
+| DELETE | `/admin/order/{id}` | `admin.order.destroy` | `BOrderController` | `destroy` |
+
+### Warehouse & Inventory
+
+| Method | URI | Name | Controller | Action |
+|--------|-----|------|------------|---------|
+| GET | `/admin/warehouse` | `admin.warehouse` | `BWarehouseController` | `index` |
+| GET | `/admin/warehouse/filter` | `admin.warehouse.filter` | `BWarehouseController` | `filter` |
+| POST | `/admin/warehouse/{product}/update-stock` | `admin.warehouse.update-stock` | `BWarehouseController` | `updateStock` |
+
+### Sales & Income Reports
+
+| Method | URI | Name | Controller | Action |
+|--------|-----|------|------------|---------|
+| GET | `/admin/income` | `admin.income` | `IncomeController` | `index` |
+| GET | `/admin/income/data` | `admin.income.data` | `IncomeController` | `getIncomeData` |
+| GET | `/admin/sales` | `admin.sales` | `BSaleController` | `index` |
+| GET | `/admin/sales/chart-data` | `admin.` | `BSaleController` | `getChartData` |
+
+### User Management
+
+| Method | URI | Name | Controller | Action |
+|--------|-----|------|------------|---------|
+| GET | `/admin/users` | `admin.users.index` | `UserController` | `index` |
+| POST | `/admin/users` | `admin.users.store` | `UserController` | `store` |
+| GET | `/admin/users/create` | `admin.users.create` | `UserController` | `create` |
+| GET | `/admin/users/{user}` | `admin.users.show` | `UserController` | `show` |
+| PUT/PATCH | `/admin/users/{user}` | `admin.users.update` | `UserController` | `update` |
+| DELETE | `/admin/users/{user}` | `admin.users.destroy` | `UserController` | `destroy` |
+| GET | `/admin/users/{user}/edit` | `admin.users.edit` | `UserController` | `edit` |
+
+## 🌍 Utility Routes
+
+| Method | URI | Name | Controller | Action |
+|--------|-----|------|------------|---------|
+| GET | `/lang/{locales}` | - | Closure | Language switcher |
+| GET | `/sanctum/csrf-cookie` | `sanctum.csrf-cookie` | `CsrfCookieController` | `show` |
+
+## 🔥 Ignition Debug Routes
+
+| Method | URI | Name | Controller | Action |
+|--------|-----|------|------------|---------|
+| POST | `/_ignition/execute-solution` | `ignition.executeSolution` | `ExecuteSolutionController` | `executeSolution` |
+| GET | `/_ignition/health-check` | `ignition.healthCheck` | `HealthCheckController` | `healthCheck` |
+| POST | `/_ignition/update-config` | `ignition.updateConfig` | `UpdateConfigController` | `updateConfig` |
+
+## 🎯 Key Route Groups
+
+### Frontend Group
+- **Prefix**: None
+- **Name**: `frontend.`
+- **Middleware**: Mixed (some public, some auth)
+
+### Admin Group
+- **Prefix**: `/admin`
+- **Name**: `admin.`
+- **Middleware**: `auth:admin`
+
+### API Group
+- **Prefix**: `/api`
+- **Middleware**: API authentication
+
+## 🔐 Authentication Middleware
+
+- **Frontend Auth**: `auth` middleware
+- **Admin Auth**: `auth:admin` middleware  
+- **Guest Routes**: Authentication pages
+- **API Auth**: Sanctum tokens
+
+## 📋 Usage Examples
+
+### Customer Shopping Flow
+```bash
+# Browse products
+GET /shop
+
+# Add to cart
+POST /cart/add
+
+# View cart
+GET /cart
+
+# Checkout (authenticated)
+GET /checkout
+POST /checkout/placeOrder
+
+# View orders
+GET /myorder
+```
+
+### Admin Management
+```bash
+# View dashboard
+GET /admin/dashboard
+
+# Manage products
+GET /admin/product
+POST /admin/product
+
+# Process orders
+GET /admin/order
+POST /admin/order/{id}
+```
+
+This route structure provides a complete e-commerce platform with separate frontend shopping experience and backend administration panel.
+
+## 💳 Payment Integration
+
+The system uses Stripe for secure payments:
+- Credit card processing
+- Secure payment verification
+- Automatic order status updates
+- Email notifications (can be integrated)
+
+## 📊 Admin Dashboard Features
+
+- Sales analytics and charts
+- Order statistics
+- Revenue tracking
+- Product performance
+- Customer insights
+
+## 🔒 Security Features
+
+- CSRF protection
+- XSS prevention
+- SQL injection protection
+- Secure file uploads
+- Input validation
+- Authentication middleware
+
+## 🗃️ Database Structure
+
+Key Models:
+- `User` - Customer accounts
+- `Product` - Product information
+- `Category` - Product categories
+- `Brand` - Product brands
+- `Cart` - Shopping cart items
+- `Order` - Customer orders
+- `OrderItem` - Order line items
+- `Address` - Shipping addresses
+
+## 🌐 Multi-language Support
+
+Switch between:
+- English (en)
+- Khmer (kh) 
+- French (fr)
+
+## 🚀 Deployment
+
+### Production Deployment Steps
+
+1. **Server Requirements**
+   - PHP 8.1+
+   - MySQL 5.7+
+   - Web server (Apache/Nginx)
+
+2. **Deployment Commands**
+   ```bash
+   composer install --optimize-autoloader --no-dev
+   npm run production
+   php artisan config:cache
+   php artisan route:cache
+   php artisan view:cache
+   php artisan migrate --force
+   ```
+
+3. **Environment Setup**
+   - Set `APP_ENV=production`
+   - Configure production database
+   - Set up SSL certificate
+   - Configure Stripe live keys
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+1. **Stripe Payment Fails**
+   - Check Stripe API keys in `.env`
+   - Verify Stripe webhook configuration
+   - Check server SSL configuration
+
+2. **Image Upload Issues**
+   - Verify `storage/app/public` permissions
+   - Check `public/uploads` directory exists
+   - Verify file size limits in PHP configuration
+
+3. **PDF Generation Problems**
+   - Check DomPDF installation
+   - Verify write permissions in storage
+   - Check for missing fonts
+
+4. **Cart Not Working**
+   - Verify session configuration
+   - Check database connections
+   - Verify cart relationships in models
+
+## 📝 API Endpoints
+
+### Product API
+```
+GET /api/products/{id} - Get product details
+```
+
+### Cart API
+```
+POST /cart/add - Add item to cart
+POST /cart/update - Update cart quantity  
+POST /cart/remove - Remove item from cart
+GET /cart/view - View cart contents
+```
+
+## 🤝 Contributing
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+## 🆘 Support
+
+For support and questions:
+- Check the troubleshooting section above
+- Review Laravel documentation
+- Check Stripe integration guides
+- Open an issue in the repository
+
+---
+
+**Note**: This is a production-ready e-commerce platform. Make sure to configure all environment variables properly and test thoroughly before deployment.
