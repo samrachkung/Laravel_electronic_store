@@ -3,7 +3,26 @@
 @section('content')
 
 <div class="container py-5">
-    <div id="cart-items" style="display: none;"></div> <!-- Add this line -->
+    <div id="cart-items" style="display: none;"></div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productDetailModalLabel">Product Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="productDetailContent">
+                    <!-- Product details will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 class="mb-0 fw-bold">Product Collection</h4>
         <div class="d-flex gap-2 align-items-center">
@@ -63,7 +82,12 @@
                                 <input type="text" class="form-control text-center mx-2" value="1" style="width: 50px;">
                                 <button class="btn btn-outline-secondary btn-sm" onclick="increaseQuantity(this)">+</button>
                             </div>
-                            <button class="btn btn-success w-100 mt-2" onclick="addToCart('{{ $product->id }}', this)">Add to Cart</button>
+                            <div class="d-flex gap-2 mt-2">
+                                <button class="btn btn-success flex-fill" onclick="addToCart('{{ $product->id }}', this)">Add to Cart</button>
+                                <button class="btn btn-outline-primary" onclick="showProductDetails('{{ $product->id }}')" title="View Details">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -72,7 +96,9 @@
         </div>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         let priceRange = document.getElementById('priceRange');
@@ -98,57 +124,118 @@
     }
 
     function addToCart(productId, button) {
-        let quantityInput = button.parentElement.querySelector('input'); // Correct selection
+        let quantityInput = button.closest('.card-body').querySelector('input');
         let quantity = quantityInput.value;
 
-        fetch("{{ url('/cart/add') }}", { // Fix: Correct API endpoint
-                method: "POST"
-                , headers: {
-                    "Content-Type": "application/json"
-                    , "X-CSRF-TOKEN": "{{ csrf_token() }}" // Ensure CSRF token is included
-                }
-                , body: JSON.stringify({
-                    product_id: productId
-                    , quantity: quantity
+        fetch("{{ url('/cart/add') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    quantity: quantity
                 })
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     Swal.fire({
-                        title: "Success!"
-                        , text: data.message
-                        , icon: "success"
-                        , timer: 900
-                        , toast: true
-                        , position: "top-end"
-                        , showConfirmButton: false
+                        title: "Success!",
+                        text: data.message,
+                        icon: "success",
+                        timer: 900,
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false
                     });
-                    updateCartView(); // Refresh cart after adding item
+                    updateCartView();
                 } else {
                     Swal.fire({
-                        title: "Error!"
-                        , text: data.message
-                        , icon: "error"
-                        , timer: 1000
-                        , toast: true
-                        , position: "top-end"
-                        , showConfirmButton: false
+                        title: "Error!",
+                        text: data.message,
+                        icon: "error",
+                        timer: 1000,
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false
                     });
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
                 Swal.fire({
-                    title: "Error!"
-                    , text: "Something went wrong. Please try again."
-                    , icon: "error"
-                    , timer: 1000
-                    , toast: true
-                    , position: "top-end"
-                    , showConfirmButton: false
+                    title: "Error!",
+                    text: "Something went wrong. Please try again.",
+                    icon: "error",
+                    timer: 1000,
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false
                 });
             });
+    }
+
+    function showProductDetails(productId) {
+        // Show loading state
+        document.getElementById('productDetailContent').innerHTML = `
+            <div class="text-center py-4">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Loading product details...</p>
+            </div>
+        `;
+
+        // Fetch product details
+        fetch(`/api/products/${productId}`)
+            .then(response => response.json())
+            .then(product => {
+                // Format the modal content
+                const modalContent = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="{{ asset('/uploads/image/') }}/${product.image}"
+                                 alt="${product.product_name}"
+                                 class="img-fluid rounded">
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="fw-bold">${product.product_name}</h4>
+                            <span class="badge bg-primary mb-2">${product.category_name}</span>
+                            <span class="badge bg-secondary mb-2">${product.brand_name}</span>
+
+                            <h5 class="text-primary my-3">$${parseFloat(product.price).toFixed(2)}</h5>
+
+                            <p class="text-muted">${product.description || 'No description available.'}</p>
+
+                            <div class="product-info mt-4">
+                                <p><strong>Availability:</strong>
+                                    <span class="${product.quantity > 0 ? 'text-success' : 'text-danger'}">
+                                        ${product.quantity > 0 ? 'In Stock (' + product.quantity + ')' : 'Out of Stock'}
+                                    </span>
+                                </p>
+                                <p><strong>SKU:</strong> ${product.id}</p>
+                                ${product.is_featured ? '<p><span class="badge bg-warning">Featured Product</span></p>' : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('productDetailContent').innerHTML = modalContent;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('productDetailContent').innerHTML = `
+                    <div class="alert alert-danger text-center">
+                        <p>Failed to load product details. Please try again.</p>
+                    </div>
+                `;
+            });
+
+        // Show the modal
+        const modal = new bootstrap.Modal(document.getElementById('productDetailModal'));
+        modal.show();
     }
 
     function updateCartView() {
@@ -159,14 +246,13 @@
                 cartContainer.innerHTML = "";
                 data.items.forEach(item => {
                     cartContainer.innerHTML += `<div class='row'>
-                    <div class='col-md-3'><img src='${item.image}' class='img-fluid'></div>
-                    <div class='col-md-6'><p>${item.name}</p><p>${item.price}</p></div>
-                    <div class='col-md-3'>Quantity: ${item.quantity}</div>
-                </div>`;
+                        <div class='col-md-3'><img src='${item.image}' class='img-fluid'></div>
+                        <div class='col-md-6'><p>${item.name}</p><p>${item.price}</p></div>
+                        <div class='col-md-3'>Quantity: ${item.quantity}</div>
+                    </div>`;
                 });
             }).catch(error => console.error('Error:', error));
     }
-
 </script>
 
 @endsection

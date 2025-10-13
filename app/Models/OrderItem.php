@@ -14,7 +14,12 @@ class OrderItem extends Model
         'product_id',
         'quantity',
         'unit_amount',
-        'total_amount',
+        'total_amount'
+    ];
+
+    protected $casts = [
+        'unit_amount' => 'decimal:2',
+        'total_amount' => 'decimal:2'
     ];
 
     public function order()

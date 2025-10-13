@@ -10,7 +10,6 @@ class shopController extends Controller
 {
     public function shop(Request $request)
     {
-
         $categories = DB::table('categories')->get();
         $query = DB::table('products')
             ->join('categories', 'products.category_id', '=', 'categories.id')
@@ -37,20 +36,19 @@ class shopController extends Controller
         if ($request->has('min_price') && $request->has('max_price')) {
             $query->whereBetween('products.price', [$request->min_price, $request->max_price]);
         }
+
         $query->orderBy('products.created_at', 'DESC');
         $products = $query->get();
+
         $sort = request('sort', 'latest');
         $productSort = DB::table('products')
             ->when($sort == 'newest', fn($query) => $query->orderBy('created_at', 'desc'))
             ->when($sort == 'latest', fn($query) => $query->orderBy('updated_at', 'desc'))
             ->get();
 
-
         return view('frontend.shop.shop')
-        -> with('products', $products)
-        -> with('categories', $categories)
-        -> with('productSort', $productSort);
-
-
+            ->with('products', $products)
+            ->with('categories', $categories)
+            ->with('productSort', $productSort);
     }
 }

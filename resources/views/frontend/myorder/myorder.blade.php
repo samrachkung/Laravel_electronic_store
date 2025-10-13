@@ -97,16 +97,21 @@
                         <h5 class="mb-3">📌 Order Details</h5>
                         <hr>
                         <p class="mb-0">📅 Your Order Date :
-                            <strong>{{ \Carbon\Carbon::parse($order->expected_arrival)->format('Y-m-d') ?? 'TBD' }}</strong>
+                            <strong>{{ \Carbon\Carbon::parse($order->created_at)->format('Y-m-d') }}</strong>
                         </p>
                         <br>
                         <p class="mb-0">📅 Expected Arrival:
-                            <strong>{{ \Carbon\Carbon::parse($order->expected_arrival)->addDay(4)->format('Y-m-d') ?? 'TBD' }}</strong>
+                            <strong>{{ $order->expected_arrival ? \Carbon\Carbon::parse($order->expected_arrival)->format('Y-m-d') : 'TBD' }}</strong>
                         </p>
                         <br>
                         <p><strong>Status:</strong> {{ ucfirst($order->status) }}</p>
                         <p><strong>Total Price:</strong> 💲{{ number_format($order->grand_total, 2) }}</p>
-                        <p><strong>Shipping Method:</strong> {{ $order->payment_method ?? 'Card' }}</p>
+                        <p><strong>Payment Method:</strong> {{ $order->payment_method ?? 'Card' }}</p>
+                        <p><strong>Payment Status:</strong>
+                            <span class="badge {{ $order->payment_status == 'paid' ? 'bg-success' : 'bg-warning' }}">
+                                {{ ucfirst($order->payment_status) }}
+                            </span>
+                        </p>
 
                         <hr>
                         <!-- Shipping Address -->
@@ -125,26 +130,38 @@
                         <h5 class="mt-4">🛍️ Products</h5>
                         <hr>
                         <ul class="list-group">
-                            @foreach ($order->items as $item)
+                            @foreach ($order->orderItems as $item) {{-- CHANGED: items to orderItems --}}
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div class="col-md-2 text-center">
-                                    <img src="{{ asset('/uploads/image/'.$item->product->image) }}" class="img-fluid rounded shadow-sm" style="max-width: 80px;" />
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <img src="{{ asset('/uploads/image/'.($item->product->image ?? 'default.jpg')) }}"
+                                             class="img-fluid rounded shadow-sm"
+                                             style="max-width: 80px;"
+                                             alt="{{ $item->product->name ?? 'Product Image' }}" />
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1">{{ $item->product->name ?? 'Product Not Available' }}</h6>
+                                        <small class="text-muted">Qty: {{ $item->quantity }} × ${{ number_format($item->unit_amount, 2) }}</small>
+                                    </div>
                                 </div>
-                                {{ $item->product->name }} (x{{ $item->quantity }})
-                                <span>💲{{ number_format($item->total_amount, 2) }}</span>
+                                <span class="fw-bold">💲{{ number_format($item->total_amount, 2) }}</span>
                             </li>
                             @endforeach
                         </ul>
 
                         @if($order->status != 'canceled')
                         <a href="{{ route('frontend.order.printInvoice', $order->id) }}" class="btn btn-primary mt-5">📄 Print / Download Invoice</a>
-
                         @endif
                     </div>
                 </div>
                 @endforeach
                 @else
-                <p class="text-center">❌ No orders found.</p>
+                <div class="text-center py-5">
+                    <i class="bi bi-cart-x display-1 text-muted"></i>
+                    <h4 class="text-muted mt-3">No orders found</h4>
+                    <p class="text-muted">You haven't placed any orders yet.</p>
+                    <a href="{{ route('frontend.shop') }}" class="btn btn-primary mt-3">Start Shopping</a>
+                </div>
                 @endif
             </div>
         </div>
@@ -160,16 +177,16 @@
         let canceledOrders = [];
 
         @foreach($orders as $order)
-        @if($order -> status == 'delivered')
+        @if($order->status == 'delivered')
         deliveredOrders.push({
             id: '{{ $invoice_code }}{{ $order->id }}'
-        , });
+        });
         @endif
 
-        @if($order -> status == 'canceled')
+        @if($order->status == 'canceled')
         canceledOrders.push({
             id: '{{ $invoice_code }}{{ $order->id }}'
-        , });
+        });
         @endif
         @endforeach
 
@@ -179,13 +196,13 @@
                 'Your order #' + deliveredOrders[0].id + ' has been delivered successfully!';
 
             Swal.fire({
-                title: '🎉 Package Delivered!'
-                , text: message
-                , icon: 'success'
-                , confirmButtonText: 'Great!'
-                , confirmButtonColor: '#4e54c8'
-                , timer: 5000
-                , timerProgressBar: true
+                title: '🎉 Package Delivered!',
+                text: message,
+                icon: 'success',
+                confirmButtonText: 'Great!',
+                confirmButtonColor: '#4e54c8',
+                timer: 5000,
+                timerProgressBar: true
             }).then(() => {
                 showCanceledAlerts();
             });
@@ -200,17 +217,16 @@
                     'Your order #' + canceledOrders[0].id + ' has been canceled.';
 
                 Swal.fire({
-                    title: '❌ Order Canceled'
-                    , text: message
-                    , icon: 'error'
-                    , confirmButtonText: 'I Understand'
-                    , confirmButtonColor: '#dc3545'
-                    , timer: 5000
-                    , timerProgressBar: true
+                    title: '❌ Order Canceled',
+                    text: message,
+                    icon: 'error',
+                    confirmButtonText: 'I Understand',
+                    confirmButtonColor: '#dc3545',
+                    timer: 5000,
+                    timerProgressBar: true
                 });
             }
         }
     });
-
 </script>
 @endsection

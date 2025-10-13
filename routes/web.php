@@ -42,7 +42,31 @@ Route::name('frontend.')->group(function () {
         Route::post('/register', [RegisterController::class, 'registerUser'])->name('register.post');
     });
 
-    // Cart Routes
+    // API route to fetch single product details
+    Route::get('/api/products/{id}', function ($id) {
+        $product = DB::table('products')
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->join('brands', 'products.brand_id', '=', 'brands.id')
+            ->select(
+                'products.id',
+                'products.name as product_name',
+                'products.slug',
+                'products.image',
+                'products.description',
+                'products.price',
+                'products.quantity',
+                'products.is_active',
+                'products.is_featured',
+                'categories.name as category_name',
+                'brands.name as brand_name'
+            )
+            ->where('products.id', $id)
+            ->where('products.is_active', 1)
+            ->first();
+
+        return response()->json($product);
+    });
+
     Route::prefix('cart')->group(function () {
         Route::get('/', [CartController::class, 'cart'])->name('cart');
         Route::get('/view', [CartController::class, 'viewCart'])->name('cart.view');
@@ -51,18 +75,22 @@ Route::name('frontend.')->group(function () {
         Route::post('/update', [CartController::class, 'updateCart'])->name('cart.update');
     });
 
-    // Checkout Routes
-    Route::prefix('checkout')->group(function () {
-        Route::get('/', [CheckoutController::class, 'index'])->name('checkout.index');
-        Route::post('/placeOrder', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
-        Route::get('/success', [CheckoutController::class, 'success'])->name('checkout.success');
-        Route::get('/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
-    });
+
 
     // Authenticated User Routes
     Route::middleware('auth')->group(function () {
         Route::get('/myorder', [MyOrderController::class, 'myorder'])->name('myorder');
         Route::get('/order/{orderId}/invoice', [MyOrderController::class, 'printInvoice'])->name('order.printInvoice');
+
+            // Checkout Routes
+
+    Route::prefix('checkout')->group(function () {
+        Route::get('/', [CheckoutController::class, 'index'])->name('checkout.index');
+        Route::post('/placeOrder', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
+        Route::get('/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
+        Route::get('/cancel/{order}', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
+    });
+
     });
 });
 

@@ -20,19 +20,23 @@ class Order extends Model
        'shipping_method',
        'expected_arrival',
        'notes',
-
+       'stripe_session_id' // ADD THIS
     ];
 
     protected $casts = [
-        'total_amount' => 'decimal:2',
+        'grand_total' => 'decimal:2', // Changed from total_amount to grand_total
+        'shipping_amount' => 'decimal:2',
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
     ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    public function items()
+
+    // Change this from items() to orderItems() to match your OrderItem model
+    public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
     }
