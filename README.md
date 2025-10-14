@@ -1,18 +1,18 @@
 # E-Commerce Platform
 
-A full-featured Laravel e-commerce platform with Stripe payment integration, admin panel, and customer management system.
+A full-featured Laravel e-commerce platform with Stripe & KHQR payment integration, admin panel, and customer management system.
 
-## 🚀 Features
+##  Features
 
 ### Customer Features
 - ✅ User registration & authentication
 - ✅ Product catalog with categories & brands
 - ✅ Shopping cart functionality
-- ✅ Secure Stripe checkout
+- ✅ Secure Stripe & KHQR checkout
 - ✅ Order management & tracking
 - ✅ Invoice generation (PDF)
 - ✅ Order status tracking with progress bar
-- ✅ Multi-language support (English, Khmer, French)
+- ✅ Multi-language support (English, Khmer)
 
 ### Admin Features
 - ✅ Admin dashboard with analytics
@@ -22,17 +22,18 @@ A full-featured Laravel e-commerce platform with Stripe payment integration, adm
 - ✅ Inventory management (warehouse)
 - ✅ Sales reporting & income tracking
 - ✅ User management
+- ✅ Telegram Notifications
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 - **Backend**: Laravel 10.x
 - **Frontend**: Bootstrap 5, jQuery
 - **Database**: MySQL
-- **Payment**: Stripe Integration
+- **Payment**: Stripe & KHQR Integration
 - **PDF Generation**: DomPDF
 - **Icons**: Bootstrap Icons, Font Awesome
 
-## 📦 Installation
+##  Installation
 
 ### Prerequisites
 - PHP 8.1+
@@ -91,7 +92,7 @@ A full-featured Laravel e-commerce platform with Stripe payment integration, adm
    php artisan serve
    ```
 
-## 🔧 Configuration
+##  Configuration
 
 ### Stripe Configuration
 1. Create a Stripe account at [stripe.com](https://stripe.com)
@@ -109,7 +110,7 @@ chmod -R 755 storage
 chmod -R 755 public/uploads
 ```
 
-## 👥 User Roles
+##  User Roles
 
 ### Customer
 - Browse products and categories
@@ -125,7 +126,7 @@ chmod -R 755 public/uploads
 - Manage inventory levels
 - View customer information
 
-## 🛒 Shopping Flow
+##  Shopping Flow
 
 1. **Browse Products** → Customers can view products by category/brand
 2. **Add to Cart** → Select products and quantities
@@ -136,11 +137,11 @@ chmod -R 755 public/uploads
 
 # E-Commerce Platform - Complete Route Documentation
 
-## 🌐 Application Routes Overview
+##  Application Routes Overview
 
 This document provides a comprehensive overview of all available routes in the e-commerce platform.
 
-## 🏠 Frontend Routes
+##  Frontend Routes
 
 ### Public Routes (Unauthenticated)
 
@@ -214,7 +215,7 @@ This document provides a comprehensive overview of all available routes in the e
 | GET | `/api/auth/me` | - | `UserAuthController` | `me` |
 | POST | `/api/auth/register` | - | `UserAuthController` | `register` |
 
-## 👨‍💼 Admin Panel Routes
+##  Admin Panel Routes
 
 ### Authentication
 
@@ -302,14 +303,14 @@ This document provides a comprehensive overview of all available routes in the e
 | DELETE | `/admin/users/{user}` | `admin.users.destroy` | `UserController` | `destroy` |
 | GET | `/admin/users/{user}/edit` | `admin.users.edit` | `UserController` | `edit` |
 
-## 🌍 Utility Routes
+##  Utility Routes
 
 | Method | URI | Name | Controller | Action |
 |--------|-----|------|------------|---------|
 | GET | `/lang/{locales}` | - | Closure | Language switcher |
 | GET | `/sanctum/csrf-cookie` | `sanctum.csrf-cookie` | `CsrfCookieController` | `show` |
 
-## 🔥 Ignition Debug Routes
+##  Ignition Debug Routes
 
 | Method | URI | Name | Controller | Action |
 |--------|-----|------|------------|---------|
@@ -317,7 +318,7 @@ This document provides a comprehensive overview of all available routes in the e
 | GET | `/_ignition/health-check` | `ignition.healthCheck` | `HealthCheckController` | `healthCheck` |
 | POST | `/_ignition/update-config` | `ignition.updateConfig` | `UpdateConfigController` | `updateConfig` |
 
-## 🎯 Key Route Groups
+##  Key Route Groups
 
 ### Frontend Group
 - **Prefix**: None
@@ -333,14 +334,14 @@ This document provides a comprehensive overview of all available routes in the e
 - **Prefix**: `/api`
 - **Middleware**: API authentication
 
-## 🔐 Authentication Middleware
+##  Authentication Middleware
 
 - **Frontend Auth**: `auth` middleware
 - **Admin Auth**: `auth:admin` middleware  
 - **Guest Routes**: Authentication pages
 - **API Auth**: Sanctum tokens
 
-## 📋 Usage Examples
+##  Usage Examples
 
 ### Customer Shopping Flow
 ```bash
@@ -377,7 +378,7 @@ POST /admin/order/{id}
 
 This route structure provides a complete e-commerce platform with separate frontend shopping experience and backend administration panel.
 
-## 💳 Payment Integration
+##  Payment Integration
 
 The system uses Stripe for secure payments:
 - Credit card processing
@@ -385,7 +386,7 @@ The system uses Stripe for secure payments:
 - Automatic order status updates
 - Email notifications (can be integrated)
 
-## 📊 Admin Dashboard Features
+##  Admin Dashboard Features
 
 - Sales analytics and charts
 - Order statistics
@@ -393,7 +394,7 @@ The system uses Stripe for secure payments:
 - Product performance
 - Customer insights
 
-## 🔒 Security Features
+##  Security Features
 
 - CSRF protection
 - XSS prevention
@@ -402,7 +403,7 @@ The system uses Stripe for secure payments:
 - Input validation
 - Authentication middleware
 
-## 🗃️ Database Structure
+##  Database Structure
 
 Key Models:
 - `User` - Customer accounts
@@ -414,14 +415,14 @@ Key Models:
 - `OrderItem` - Order line items
 - `Address` - Shipping addresses
 
-## 🌐 Multi-language Support
+##  Multi-language Support
 
 Switch between:
 - English (en)
 - Khmer (kh) 
-- French (fr)
 
-## 🚀 Deployment
+
+##  Deployment
 
 ### Production Deployment Steps
 
@@ -446,7 +447,7 @@ Switch between:
    - Set up SSL certificate
    - Configure Stripe live keys
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Common Issues
 
@@ -470,7 +471,7 @@ Switch between:
    - Check database connections
    - Verify cart relationships in models
 
-## 📝 API Endpoints
+##  API Endpoints
 
 ### Product API
 ```
@@ -485,7 +486,7 @@ POST /cart/remove - Remove item from cart
 GET /cart/view - View cart contents
 ```
 
-## 🤝 Contributing
+##  Contributing
 
 1. Fork the project
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
@@ -497,13 +498,14 @@ GET /cart/view - View cart contents
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
-## 🆘 Support
+##  Support
 
 For support and questions:
 - Check the troubleshooting section above
 - Review Laravel documentation
 - Check Stripe integration guides
 - Open an issue in the repository
+- Massage Me Telegram @samrachkung - Fb : Samrach Kung 
 
 ---
 
