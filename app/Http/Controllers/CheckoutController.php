@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 class CheckoutController extends Controller
 {
@@ -207,9 +208,6 @@ class CheckoutController extends Controller
                 }
             }
 
-            // For testing, you can temporarily force payment verification
-            // $paymentVerified = true; // Remove this in production
-
             if ($paymentVerified) {
                 // UPDATE PAYMENT STATUS
                 $order->update([
@@ -253,6 +251,9 @@ class CheckoutController extends Controller
 
                 Log::info('Cart items removed', ['count' => $removedCount]);
 
+                // SEND TELEGRAM NOTIFICATION
+                $this->sendTelegramNotification($order);
+
                 DB::commit();
 
                 return view('frontend.checkout.checkout_success', compact('order'))
@@ -289,6 +290,95 @@ class CheckoutController extends Controller
         } catch (\Exception $e) {
             Log::error('Cancel method error: ' . $e->getMessage());
             return redirect()->route('frontend.cart')->with('error', 'Unable to process cancellation.');
+        }
+    }
+
+    /**
+     * Send Telegram notification for successful payment using direct API
+     */
+    private function sendTelegramNotification(Order $order)
+    {
+        try {
+            $botToken = env('TELEGRAM_BOT_TOKEN');
+            $chatId = env('TELEGRAM_CHAT_ID');
+
+            if (!$botToken || !$chatId) {
+                Log::warning('Telegram bot token or chat ID not configured');
+                return false;
+            }
+
+            // Build API URL using the full bot token
+            $apiUrl = "https://api.telegram.org/{$botToken}/sendMessage";
+
+            // Helper function to escape HTML entities
+            $escape = function($text) {
+                return str_replace(
+                    ['&', '<', '>'],
+                    ['&amp;', '&lt;', '&gt;'],
+                    $text
+                );
+            };
+
+            // Build message with proper HTML formatting
+            $message = "💰 <b>Payment Successful!</b>\n\n";
+            $message .= "🆔 <b>Order ID:</b> #" . $order->id . "\n";
+            $message .= "👤 <b>Customer:</b> " . $escape($order->address->first_name . " " . $order->address->last_name) . "\n";
+            $message .= "📧 <b>Email:</b> " . $escape($order->user->email ?? 'N/A') . "\n";
+            $message .= "📞 <b>Phone:</b> " . $escape($order->address->phone ?? 'N/A') . "\n";
+            $message .= "💵 <b>Amount:</b> $" . number_format($order->grand_total, 2) . "\n";
+            $message .= "📦 <b>Items:</b> " . $order->orderItems->count() . "\n";
+            $message .= "🕒 <b>Date:</b> " . now()->format('Y-m-d H:i:s') . "\n\n";
+
+            // Add order items details
+            $message .= "📋 <b>Order Items:</b>\n";
+            foreach ($order->orderItems as $item) {
+                $message .= "  • " . $escape($item->product->name) . " (Qty: " . $item->quantity . ") - $" . number_format($item->total_amount, 2) . "\n";
+            }
+
+            $message .= "\n📍 <b>Shipping Address:</b>\n";
+            $message .= $escape($order->address->street_address . ", " . $order->address->city . ", " . $order->address->state . " " . $order->address->zip_code);
+
+            // Build HTTP client with conditional SSL verification
+            $httpClient = Http::withHeaders([
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json'
+            ]);
+
+            // Disable SSL verification only in local environment
+            if (app()->environment('local')) {
+                $httpClient = $httpClient->withoutVerifying();
+            }
+
+            $response = $httpClient->post($apiUrl, [
+                'chat_id' => $chatId,
+                'text' => $message,
+                'parse_mode' => 'HTML',
+                'disable_web_page_preview' => false,
+                'disable_notification' => false,
+            ]);
+
+            if ($response->successful()) {
+                $responseData = $response->json();
+                $messageId = $responseData['result']['message_id'] ?? null;
+
+                Log::info('Telegram notification sent successfully', [
+                    'order_id' => $order->id,
+                    'message_id' => $messageId
+                ]);
+
+                return true;
+            } else {
+                Log::error('Telegram API error', [
+                    'order_id' => $order->id,
+                    'response' => $response->body(),
+                    'status' => $response->status()
+                ]);
+                return false;
+            }
+
+        } catch (\Exception $e) {
+            Log::error('Failed to send Telegram notification: ' . $e->getMessage());
+            return false;
         }
     }
 }
