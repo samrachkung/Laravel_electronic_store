@@ -320,7 +320,7 @@ class CheckoutController extends Controller
             };
 
             // Build message with proper HTML formatting
-            $message = "💰 <b>Payment Successful!</b>\n\n";
+            $message = "💰 <b>You Have an Order!</b>\n\n";
             $message .= "🆔 <b>Order ID:</b> #" . $order->id . "\n";
             $message .= "👤 <b>Customer:</b> " . $escape($order->address->first_name . " " . $order->address->last_name) . "\n";
             $message .= "📧 <b>Email:</b> " . $escape($order->user->email ?? 'N/A') . "\n";

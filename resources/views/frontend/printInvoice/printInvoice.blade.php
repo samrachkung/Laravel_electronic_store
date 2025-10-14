@@ -79,6 +79,13 @@
             color: #666;
         }
 
+        .order-info {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
     </style>
 </head>
 <body>
@@ -87,6 +94,13 @@
             <h2 class="invoice-title">Invoice</h2>
             <p class="thank-you">Thank you for your purchase!</p>
             <p>#{{ $invoice_code }}{{ $order->id }}</p>
+        </div>
+
+        <div class="order-info">
+            <h4>Order Information</h4>
+            <p><strong>Order Date:</strong> {{ \Carbon\Carbon::parse($order->created_at)->format('F d, Y') }}</p>
+            <p><strong>Order Status:</strong> {{ ucfirst($order->status) }}</p>
+            <p><strong>Payment Status:</strong> {{ ucfirst($order->payment_status) }}</p>
         </div>
 
         <div class="customer-info">
@@ -106,24 +120,34 @@
                 <tr>
                     <th>Product</th>
                     <th>Quantity</th>
-                    <th>Price</th>
+                    <th>Unit Price</th>
                     <th>Total</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($order->items as $item)
-                <tr>
-                    <td>{{ $item->product->name }}</td>
-                    <td>{{ $item->quantity }}</td>
-                    <td>$ {{ number_format($item->product->price, 2) }}</td>
-                    <td>$ {{ number_format($item->total_amount, 2) }}</td>
-                </tr>
-                @endforeach
+                @if($order->orderItems && $order->orderItems->count() > 0)
+                    @foreach ($order->orderItems as $item)
+                    <tr>
+                        <td>{{ $item->product->name ?? 'Product Not Available' }}</td>
+                        <td>{{ $item->quantity }}</td>
+                        <td>$ {{ number_format($item->unit_amount, 2) }}</td>
+                        <td>$ {{ number_format($item->total_amount, 2) }}</td>
+                    </tr>
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="4" style="text-align: center;">No products found for this order.</td>
+                    </tr>
+                @endif
             </tbody>
         </table>
 
-        <p class="total">Total Price: ${{ number_format($order->grand_total, 2) }}</p>
-        <p class="total">Shipping Method: {{ $order->payment_method ?? 'Card' }}</p>
+        <div class="total-section">
+            <p class="total">Subtotal: ${{ number_format($order->grand_total, 2) }}</p>
+            <p class="total">Shipping Fee: $0.00</p>
+            <p class="total" style="font-size: 20px; color: #007bff;">Grand Total: ${{ number_format($order->grand_total, 2) }}</p>
+            <p class="total">Payment Method: {{ $order->payment_method ?? 'Card' }}</p>
+        </div>
 
     </div>
 

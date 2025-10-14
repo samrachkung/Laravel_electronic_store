@@ -49,6 +49,6 @@ class Authenticate extends Middleware
         }
 
         // Default frontend login route
-        return route('login');
+        return route('frontend.login');
     }
 }

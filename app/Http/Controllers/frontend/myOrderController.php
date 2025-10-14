@@ -11,10 +11,14 @@ class MyOrderController extends Controller
 {
     public function myOrder()
     {
-        $code = 'invoice_code';
+        $user = auth()->user();
+        if (!$user) {
+            return redirect()->route('frontend.login')->with('error', 'Please login to view your orders.');
+        }
+
         $invoice_code = "ODIDCODE" . "-";
 
-        // Use 'orderItems' instead of 'items' and make sure to load the product relationship
+        // Use with() to eager load relationships and handle null cases
         $orders = Order::where('user_id', Auth::id())
                       ->latest()
                       ->with(['orderItems.product', 'address'])
@@ -23,27 +27,21 @@ class MyOrderController extends Controller
         return view('frontend.myorder.myorder', compact('orders', 'invoice_code'));
     }
 
-    public function printInvoice($orderId)
-    {
-        // Use 'orderItems' instead of 'items' and load the product relationship
-        $order = Order::with(['orderItems.product', 'address'])->find($orderId);
+public function printInvoice($orderId)
+{
+    // Use 'orderItems' instead of 'items'
+    $order = Order::with(['orderItems.product', 'address'])
+                 ->where('user_id', Auth::id())
+                 ->find($orderId);
 
-        if (!$order) {
-            return redirect()->back()->with('error', 'Order not found');
-        }
-
-        // Verify the order belongs to the authenticated user
-        if ($order->user_id !== Auth::id()) {
-            return redirect()->back()->with('error', 'Unauthorized access');
-        }
-
-        $code = 'invoice_code';
-        $invoice_code = "ODIDCODE" . "-";
-
-        // Load the view and pass the necessary data
-        $pdf = PDF::loadView('frontend.printInvoice.printInvoice', compact('order', 'invoice_code'));
-
-        // Download the PDF
-        return $pdf->download('invoice_' . $invoice_code . $order->id . '.pdf');
+    if (!$order) {
+        return redirect()->back()->with('error', 'Order not found');
     }
+
+    $invoice_code = "ODIDCODE" . "-";
+
+    $pdf = PDF::loadView('frontend.printInvoice.printInvoice', compact('order', 'invoice_code'));
+
+    return $pdf->download('invoice_' . $invoice_code . $order->id . '.pdf');
+}
 }

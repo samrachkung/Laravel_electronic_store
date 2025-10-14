@@ -130,23 +130,29 @@
                         <h5 class="mt-4">🛍️ Products</h5>
                         <hr>
                         <ul class="list-group">
-                            @foreach ($order->orderItems as $item) {{-- CHANGED: items to orderItems --}}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center">
-                                    <div class="me-3">
-                                        <img src="{{ asset('/uploads/image/'.($item->product->image ?? 'default.jpg')) }}"
-                                             class="img-fluid rounded shadow-sm"
-                                             style="max-width: 80px;"
-                                             alt="{{ $item->product->name ?? 'Product Image' }}" />
+                            @if($order->orderItems && $order->orderItems->count() > 0)
+                                @foreach ($order->orderItems as $item)
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-3">
+                                            <img src="{{ asset('/uploads/image/'.($item->product->image ?? 'default.jpg')) }}"
+                                                 class="img-fluid rounded shadow-sm"
+                                                 style="max-width: 80px;"
+                                                 alt="{{ $item->product->name ?? 'Product Image' }}" />
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1">{{ $item->product->name ?? 'Product Not Available' }}</h6>
+                                            <small class="text-muted">Qty: {{ $item->quantity }} × ${{ number_format($item->unit_amount, 2) }}</small>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h6 class="mb-1">{{ $item->product->name ?? 'Product Not Available' }}</h6>
-                                        <small class="text-muted">Qty: {{ $item->quantity }} × ${{ number_format($item->unit_amount, 2) }}</small>
-                                    </div>
-                                </div>
-                                <span class="fw-bold">💲{{ number_format($item->total_amount, 2) }}</span>
-                            </li>
-                            @endforeach
+                                    <span class="fw-bold">💲{{ number_format($item->total_amount, 2) }}</span>
+                                </li>
+                                @endforeach
+                            @else
+                                <li class="list-group-item text-center text-muted">
+                                    No products found for this order.
+                                </li>
+                            @endif
                         </ul>
 
                         @if($order->status != 'canceled')
