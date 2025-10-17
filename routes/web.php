@@ -101,6 +101,19 @@ Route::get('lang/{locales}', function ($locales) {
     return redirect()->back();
 });
 
+// routes/web.php
+Route::get('/test-email', function() {
+    $order = \App\Models\Order::with(['orderItems.product', 'address', 'user'])->first();
+
+    try {
+        Mail::to('ymrchannel369@gmail.com')->send(new \App\Mail\OrderConfirmationMail($order));
+        return 'Email sent successfully!';
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
+});
+
+
 // Admin Routes
 Route::prefix('admin')->name('admin.')->group(function () {
     // Authentication Routes

@@ -19,7 +19,7 @@
 
     </div>
     <div class="img">
-        <img src="{{asset('frontend/images/background.jpg')}}" alt="">
+        <img src="https://www.asus.com/WebsitesBanner/global/banners/xysyvrdzlujzardd/xysyvrdzlujzardd-0_0_desktop_0_2X.webp?webp" alt="">
     </div>
 </section>
 <!-- home content -->

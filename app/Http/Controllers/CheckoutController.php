@@ -14,6 +14,8 @@ use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail; // Add this import
+use App\Mail\OrderConfirmationMail;
 
 class CheckoutController extends Controller
 {
@@ -38,7 +40,7 @@ class CheckoutController extends Controller
             return redirect()->route('frontend.cart')->with('error', 'Your cart is empty or selected items are no longer available.');
         }
 
-        $cartTotal = $cartItems->sum(function($item) {
+        $cartTotal = $cartItems->sum(function ($item) {
             return $item->product->price * $item->quantity;
         });
 
@@ -177,7 +179,7 @@ class CheckoutController extends Controller
 
         DB::beginTransaction();
         try {
-            $order = Order::with(['orderItems.product', 'address'])->findOrFail($orderId);
+            $order = Order::with(['orderItems.product', 'address', 'user'])->findOrFail($orderId);
 
             // Verify order belongs to user
             if ($order->user_id !== Auth::id()) {
@@ -187,7 +189,7 @@ class CheckoutController extends Controller
             // Check if payment is already processed
             if ($order->payment_status === 'paid') {
                 return view('frontend.checkout.checkout_success', compact('order'))
-                       ->with('success', 'Payment was already processed successfully!');
+                    ->with('success', 'Payment was already processed successfully!');
             }
 
             // Verify Stripe payment
@@ -251,13 +253,25 @@ class CheckoutController extends Controller
 
                 Log::info('Cart items removed', ['count' => $removedCount]);
 
+                // SEND EMAIL NOTIFICATION TO USER
+                try {
+                    Mail::to($order->user->email)->send(new OrderConfirmationMail($order));
+                    Log::info('Order confirmation email sent', [
+                        'order_id' => $order->id,
+                        'email' => $order->user->email
+                    ]);
+                } catch (\Exception $e) {
+                    Log::error('Failed to send order confirmation email: ' . $e->getMessage());
+                    // Don't throw the exception - we don't want email failure to break the order process
+                }
+
                 // SEND TELEGRAM NOTIFICATION
                 $this->sendTelegramNotification($order);
 
                 DB::commit();
 
                 return view('frontend.checkout.checkout_success', compact('order'))
-                       ->with('success', 'Payment successful! Your order has been placed.');
+                    ->with('success', 'Payment successful! Your order has been placed. A confirmation email has been sent to ' . $order->user->email);
 
             } else {
                 DB::rollBack();
@@ -271,7 +285,6 @@ class CheckoutController extends Controller
             return redirect()->route('frontend.cart')->with('error', 'Unable to process order: ' . $e->getMessage());
         }
     }
-
     public function cancel(Request $request, $orderId)
     {
         Log::info('Checkout cancelled', ['order_id' => $orderId]);
@@ -311,7 +324,7 @@ class CheckoutController extends Controller
             $apiUrl = "https://api.telegram.org/{$botToken}/sendMessage";
 
             // Helper function to escape HTML entities
-            $escape = function($text) {
+            $escape = function ($text) {
                 return str_replace(
                     ['&', '<', '>'],
                     ['&amp;', '&lt;', '&gt;'],
