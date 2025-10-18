@@ -212,10 +212,10 @@
                             <div class="product-info mt-4">
                                 <p><strong>Availability:</strong>
                                     <span class="${product.quantity > 0 ? 'text-success' : 'text-danger'}">
-                                        ${product.quantity > 0 ? 'In Stock (' + product.quantity + ')' : 'Out of Stock'}
+                                        ${product.quantity > 0 ? 'In Stock' : 'Out of Stock'}
                                     </span>
                                 </p>
-                                <p><strong>SKU:</strong> ${product.id}</p>
+                                <p><strong>:</strong> ${product.id}</p>
                                 ${product.is_featured ? '<p><span class="badge bg-warning">Featured Product</span></p>' : ''}
                             </div>
                         </div>

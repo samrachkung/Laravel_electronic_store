@@ -5,7 +5,7 @@ A full-featured Laravel e-commerce platform with Stripe & KHQR payment integrati
 ##  Features
 
 ### Customer Features
-- ✅ User registration & authentication
+- ✅ User registration & authentication & forget password with OTP verify 
 - ✅ Product catalog with categories & brands
 - ✅ Shopping cart functionality
 - ✅ Secure Stripe & KHQR checkout
