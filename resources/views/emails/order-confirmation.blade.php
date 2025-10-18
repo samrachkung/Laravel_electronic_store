@@ -71,11 +71,11 @@
 
             <p>We'll send you another email when your order ships. If you have any questions, please contact our support team.</p>
 
-            <p>Best regards,<br></p>
+            <p>Best regards,{{ config('app.name') }} Team <br></p>
         </div>
 
         <div class="footer">
-            <p>&copy; {{ date('Y') }} Samrach. All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
         </div>
     </div>
 </body>
