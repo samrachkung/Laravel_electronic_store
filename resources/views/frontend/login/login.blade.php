@@ -3,7 +3,7 @@
 @section('content')
 
 <style>
-
+    /* Your existing styles remain the same */
     #login {
         width: 100%;
         max-width: 900px;
@@ -67,7 +67,6 @@
             display: none;
         }
     }
-
 </style>
 
 <div class="container mt-5" id="login">
@@ -78,7 +77,6 @@
         </div>
         <div class="col-md-7" id="side2">
             <form action="{{ route('frontend.login.post') }}" method="POST" id="loginForm">
-
                 @csrf
                 <h3 class="text-center mb-4">Account Login</h3>
                 <div>
@@ -86,8 +84,15 @@
                     <input type="password" name="password" placeholder="Password" required>
                 </div>
                 <button type="submit" id="btn-login">Login</button>
-                <p class="text-center mt-3"><a href="#" style="color: #ff758c; font-weight: bold; outline: none;">Forgot Password? Click Here</a></p>
-
+                <p class="text-center mt-3">
+                    <a href="{{ route('frontend.password.forgot') }}" style="color: #ff758c; font-weight: bold; outline: none;">
+                        Forgot Password? Click Here
+                    </a>
+                </p>
+                <p class="text-center mt-2">
+                    Don't have an account?
+                    <a href="{{ route('frontend.register') }}" style="color: #ff758c; font-weight: bold;">Register here</a>
+                </p>
             </form>
         </div>
     </div>
@@ -102,34 +107,31 @@
         let formData = new FormData(form);
 
         fetch(form.action, {
-                method: form.method
-                , body: formData
-                , headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            }).then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    Swal.fire({
-                        title: 'Success!'
-                        , text: data.message
-                        , icon: 'success'
-                        , confirmButtonText: 'OK'
-                    }).then(() => {
-                        window.location.href = '{{ url("/") }}';
-                    });
-                } else {
-                    Swal.fire({
-                        title: 'Error!'
-                        , text: data.message
-                        , icon: 'error'
-                        , confirmButtonText: 'OK'
-                    });
-                }
-            }).catch(error => console.error('Error:', error));
+            method: form.method,
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        }).then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: data.message,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.href = '{{ url("/") }}';
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: data.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        }).catch(error => console.error('Error:', error));
     });
-
 </script>
-
 @endsection
-

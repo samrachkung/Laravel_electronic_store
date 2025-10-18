@@ -1,5 +1,5 @@
 @extends('frontend.layout.master')
-@section('title','Register')
+@section('title', 'Forgot Password')
 @section('content')
 
 <style>
@@ -45,7 +45,7 @@
         color: rgba(0, 0, 0, 0.7);
     }
 
-    #btn-login, #btn-verify, #btn-resend {
+    #btn-submit, #btn-verify, #btn-reset, #btn-resend {
         width: 100%;
         background: linear-gradient(135deg, #ff7eb3, #ff758c);
         color: white;
@@ -57,7 +57,7 @@
         font-weight: bold;
     }
 
-    #btn-login:hover, #btn-verify:hover, #btn-resend:hover {
+    #btn-submit:hover, #btn-verify:hover, #btn-reset:hover, #btn-resend:hover {
         background: linear-gradient(135deg, #ff758c, #ff7eb3);
         transform: scale(1.05);
     }
@@ -92,37 +92,30 @@
     }
 </style>
 
-<div class="container" id="login">
+<div class="container mt-5" id="login">
     <div class="row">
         <div class="col-md-5 d-none d-md-flex" id="side1">
-            <h2>Welcome!</h2>
-            <p>Create new Account to continue your journey with us.</p>
+            <h2>Reset Password</h2>
+            <p>Enter your email to reset your password.</p>
         </div>
-
-        <div class="col-md-7 py-3 py-md-0" id="side2">
-            <!-- Registration Form -->
-            <form id="registerForm" style="display: block;">
+        <div class="col-md-7" id="side2">
+            <!-- Email Form -->
+            <form id="emailForm" style="display: block;">
                 @csrf
-                <h3 class="text-center">Create Account</h3>
-                <div class="text-center">
-                    <input type="text" name="name" placeholder="Name" required>
-                    <input type="email" name="email" placeholder="Email" required>
-                    <input type="password" name="password" placeholder="Password" required>
-                    <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
+                <h3 class="text-center mb-4">Forgot Password</h3>
+                <div>
+                    <input type="email" name="email" placeholder="Enter your email" required>
                 </div>
-                <button type="submit" id="btn-login">
-                    SIGN UP
-                </button>
+                <button type="submit" id="btn-submit">SEND OTP</button>
                 <p class="text-center mt-3">
-                    Already have an account?
-                    <a href="{{ route('frontend.login') }}" style="color: #ff758c; font-weight: bold;">Login here</a>
+                    <a href="{{ route('frontend.login') }}" style="color: #ff758c; font-weight: bold;">Back to Login</a>
                 </p>
             </form>
 
             <!-- OTP Verification Form -->
             <form id="otpForm" style="display: none;">
                 @csrf
-                <h3 class="text-center">Verify Email</h3>
+                <h3 class="text-center">Verify OTP</h3>
                 <p class="text-center">Enter the 6-digit OTP sent to your email</p>
 
                 <div class="otp-inputs">
@@ -138,8 +131,21 @@
                 <button type="submit" id="btn-verify">
                     VERIFY OTP
                 </button>
-                <button type="button" id="btn-resend" onclick="resendOTP()">
+                <button type="button" id="btn-resend" onclick="resendPasswordOTP()">
                     RESEND OTP
+                </button>
+            </form>
+
+            <!-- Password Reset Form -->
+            <form id="passwordForm" style="display: none;">
+                @csrf
+                <h3 class="text-center">Set New Password</h3>
+                <div>
+                    <input type="password" name="password" placeholder="New Password" required>
+                    <input type="password" name="password_confirmation" placeholder="Confirm New Password" required>
+                </div>
+                <button type="submit" id="btn-reset">
+                    RESET PASSWORD
                 </button>
             </form>
         </div>
@@ -167,8 +173,8 @@
         document.getElementById('fullOtp').value = fullOtp;
     }
 
-    function resendOTP() {
-        fetch('{{ route("frontend.register.resend-otp") }}', {
+    function resendPasswordOTP() {
+        fetch('{{ route("frontend.password.resend-otp") }}', {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -196,13 +202,13 @@
         .catch(error => console.error('Error:', error));
     }
 
-    // Registration Form Submission
-    document.getElementById('registerForm').addEventListener('submit', function(event) {
+    // Email Form Submission
+    document.getElementById('emailForm').addEventListener('submit', function(event) {
         event.preventDefault();
 
         let formData = new FormData(this);
 
-        fetch('{{ route("frontend.register.send-otp") }}', {
+        fetch('{{ route("frontend.password.send-otp") }}', {
             method: 'POST',
             body: formData,
             headers: {
@@ -212,7 +218,7 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                document.getElementById('registerForm').style.display = 'none';
+                document.getElementById('emailForm').style.display = 'none';
                 document.getElementById('otpForm').style.display = 'block';
                 Swal.fire({
                     title: 'Success!',
@@ -238,7 +244,43 @@
 
         let formData = new FormData(this);
 
-        fetch('{{ route("frontend.register.verify-otp") }}', {
+        fetch('{{ route("frontend.password.verify-otp") }}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('otpForm').style.display = 'none';
+                document.getElementById('passwordForm').style.display = 'block';
+                Swal.fire({
+                    title: 'Success!',
+                    text: data.message,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: data.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+    // Password Form Submission
+    document.getElementById('passwordForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        let formData = new FormData(this);
+
+        fetch('{{ route("frontend.password.reset") }}', {
             method: 'POST',
             body: formData,
             headers: {

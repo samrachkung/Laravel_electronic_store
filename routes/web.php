@@ -10,7 +10,8 @@ use App\Http\Controllers\frontend\{
     AboutController,
     CartController,
     MyOrderController,
-    ShopController
+    ShopController,
+    ForgotPasswordController
 };
 use App\Http\Controllers\backend\{
     BDashboardController,
@@ -33,13 +34,24 @@ Route::name('frontend.')->group(function () {
     Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
     Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
 
-    // Authentication Routes
+  // Authentication Routes
     Route::prefix('auth')->group(function () {
         Route::get('/login', [LoginController::class, 'login'])->name('login');
         Route::post('/login', [LoginController::class, 'authenticate'])->name('login.post');
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+        // Registration with OTP Routes
         Route::get('/register', [RegisterController::class, 'register'])->name('register');
-        Route::post('/register', [RegisterController::class, 'registerUser'])->name('register.post');
+        Route::post('/register/send-otp', [RegisterController::class, 'sendOTP'])->name('register.send-otp');
+        Route::post('/register/verify-otp', [RegisterController::class, 'verifyOTP'])->name('register.verify-otp');
+        Route::post('/register/resend-otp', [RegisterController::class, 'resendOTP'])->name('register.resend-otp');
+
+        // Password Reset Routes
+        Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotPassword'])->name('password.forgot');
+        Route::post('/forgot-password/send-otp', [ForgotPasswordController::class, 'sendPasswordResetOTP'])->name('password.send-otp');
+        Route::post('/forgot-password/verify-otp', [ForgotPasswordController::class, 'verifyPasswordResetOTP'])->name('password.verify-otp');
+        Route::post('/forgot-password/reset', [ForgotPasswordController::class, 'resetPassword'])->name('password.reset');
+        Route::post('/forgot-password/resend-otp', [ForgotPasswordController::class, 'resendPasswordResetOTP'])->name('password.resend-otp');
     });
 
     // API route to fetch single product details
@@ -82,14 +94,14 @@ Route::name('frontend.')->group(function () {
         Route::get('/myorder', [MyOrderController::class, 'myorder'])->name('myorder');
         Route::get('/order/{orderId}/invoice', [MyOrderController::class, 'printInvoice'])->name('order.printInvoice');
 
-            // Checkout Routes
+        // Checkout Routes
 
-    Route::prefix('checkout')->group(function () {
-        Route::get('/', [CheckoutController::class, 'index'])->name('checkout.index');
-        Route::post('/placeOrder', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
-        Route::get('/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
-        Route::get('/cancel/{order}', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
-    });
+        Route::prefix('checkout')->group(function () {
+            Route::get('/', [CheckoutController::class, 'index'])->name('checkout.index');
+            Route::post('/placeOrder', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
+            Route::get('/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
+            Route::get('/cancel/{order}', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
+        });
 
     });
 });
@@ -101,18 +113,52 @@ Route::get('lang/{locales}', function ($locales) {
     return redirect()->back();
 });
 
-// routes/web.php
-Route::get('/test-email', function() {
-    $order = \App\Models\Order::with(['orderItems.product', 'address', 'user'])->first();
 
+Route::get('/test-gmail', function() {
     try {
-        Mail::to('ymrchannel369@gmail.com')->send(new \App\Mail\OrderConfirmationMail($order));
-        return 'Email sent successfully!';
+        \Log::info('Testing Gmail configuration...');
+
+        // Test 1: Basic email
+        Mail::raw('This is a test email from Gmail SMTP!', function($message) {
+            $message->to('samrach088@gmail.com')
+                    ->subject('Gmail SMTP Test');
+        });
+
+        \Log::info('Basic Gmail test completed');
+
+        // Test 2: OTP email
+        $otp = '123456';
+        $email = 'samrach088@gmail.com'; // Change to your email for testing
+        Mail::to($email)->send(new \App\Mail\OTPMail($otp, 'registration'));
+
+        \Log::info('Gmail OTP email test completed');
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Gmail test completed. Check your email and logs.'
+        ]);
+
     } catch (\Exception $e) {
-        return 'Error: ' . $e->getMessage();
+        \Log::error('Gmail test failed: ' . $e->getMessage());
+        \Log::error('Full error: ' . $e->getFile() . ':' . $e->getLine() . ' - ' . $e->getTraceAsString());
+
+        return response()->json([
+            'success' => false,
+            'error' => $e->getMessage(),
+            'details' => 'Check Laravel logs for more information'
+        ], 500);
     }
 });
 
+Route::get('/test-otp', function() {
+    try {
+        $otpService = app()->make(App\Services\OTPService::class);
+        $otp = $otpService->generateOTP('ymrchannel369@gmail.com', 'registration');
+        return response()->json(['success' => true, 'otp' => $otp]);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+});
 
 // Admin Routes
 Route::prefix('admin')->name('admin.')->group(function () {
