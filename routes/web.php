@@ -34,7 +34,7 @@ Route::name('frontend.')->group(function () {
     Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
     Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
 
-  // Authentication Routes
+    // Authentication Routes
     Route::prefix('auth')->group(function () {
         Route::get('/login', [LoginController::class, 'login'])->name('login');
         Route::post('/login', [LoginController::class, 'authenticate'])->name('login.post');
@@ -88,21 +88,22 @@ Route::name('frontend.')->group(function () {
     });
 
 
-
     // Authenticated User Routes
     Route::middleware('auth')->group(function () {
         Route::get('/myorder', [MyOrderController::class, 'myorder'])->name('myorder');
         Route::get('/order/{orderId}/invoice', [MyOrderController::class, 'printInvoice'])->name('order.printInvoice');
 
-        // Checkout Routes
-
+        // Checkout Routes (Authenticated)
         Route::prefix('checkout')->group(function () {
             Route::get('/', [CheckoutController::class, 'index'])->name('checkout.index');
             Route::post('/placeOrder', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
             Route::get('/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
             Route::get('/cancel/{order}', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
+            // KHQR specific routes
+            Route::get('/khqr/{order}', [CheckoutController::class, 'showKHQR'])->name('checkout.khqr');
+            Route::get('/khqr/{order}/check-status', [CheckoutController::class, 'checkKHQRStatus'])->name('checkout.khqr.check');
+            Route::get('/khqr/{order}/expired', [CheckoutController::class, 'khqrExpired'])->name('checkout.khqr.expired');
         });
-
     });
 });
 
@@ -114,14 +115,14 @@ Route::get('lang/{locales}', function ($locales) {
 });
 
 
-Route::get('/test-gmail', function() {
+Route::get('/test-gmail', function () {
     try {
         \Log::info('Testing Gmail configuration...');
 
         // Test 1: Basic email
-        Mail::raw('This is a test email from Gmail SMTP!', function($message) {
+        Mail::raw('This is a test email from Gmail SMTP!', function ($message) {
             $message->to('samrach088@gmail.com')
-                    ->subject('Gmail SMTP Test');
+                ->subject('Gmail SMTP Test');
         });
 
         \Log::info('Basic Gmail test completed');
@@ -150,7 +151,7 @@ Route::get('/test-gmail', function() {
     }
 });
 
-Route::get('/test-otp', function() {
+Route::get('/test-otp', function () {
     try {
         $otpService = app()->make(App\Services\OTPService::class);
         $otp = $otpService->generateOTP('ymrchannel369@gmail.com', 'registration');

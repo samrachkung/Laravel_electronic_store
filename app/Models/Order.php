@@ -20,14 +20,19 @@ class Order extends Model
        'shipping_method',
        'expected_arrival',
        'notes',
-       'stripe_session_id' // ADD THIS
+       'stripe_session_id',
+       'khqr_code',
+       'khqr_md5',
+       'khqr_expires_at'
     ];
 
+    // Use casts property (not $dates - deprecated in Laravel 10+)
     protected $casts = [
-        'grand_total' => 'decimal:2', // Changed from total_amount to grand_total
+        'grand_total' => 'decimal:2',
         'shipping_amount' => 'decimal:2',
         'created_at' => 'datetime',
-        'updated_at' => 'datetime'
+        'updated_at' => 'datetime',
+        'khqr_expires_at' => 'datetime',  // This is crucial!
     ];
 
     public function user()
@@ -35,7 +40,6 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    // Change this from items() to orderItems() to match your OrderItem model
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
@@ -46,40 +50,13 @@ class Order extends Model
         return $this->hasOne(Address::class);
     }
 
-    // Status helpers
-    public function isNew()
+    public function isKHQRExpired()
     {
-        return $this->status === 'new';
+        return $this->khqr_expires_at && now()->isAfter($this->khqr_expires_at);
     }
 
-    public function isProcessing()
+    public function isKHQRPayment()
     {
-        return $this->status === 'processing';
-    }
-
-    public function isShipped()
-    {
-        return $this->status === 'shipped';
-    }
-
-    public function isDelivered()
-    {
-        return $this->status === 'delivered';
-    }
-
-    public function isCanceled()
-    {
-        return $this->status === 'canceled';
-    }
-
-    // Payment status helper
-    public function isPaid()
-    {
-        return $this->payment_status === 'paid';
-    }
-
-    public function isRefunded()
-    {
-        return $this->payment_status === 'refunded';
+        return $this->payment_method === 'khqr';
     }
 }
